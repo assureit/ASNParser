@@ -8,4 +8,6 @@ function test(source) {
 }
 
 
+test("* goal\n");
+test("* goal");
 test("* goal\ndesc");

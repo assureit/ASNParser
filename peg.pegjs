@@ -1,5 +1,5 @@
 start
-	= initializer goalnode
+	= initializer goalnode whitespace
 
 initializer /* FIXME */
 	= ""
@@ -28,7 +28,7 @@ initializer /* FIXME */
 				this.Statement = Statement;
 				this.Children = [];
 				this.Annotations = [];
-				this.Notes = [];
+				this.Notes = Notes;
 				this.x = 0;
 				this.y = 0;
 			},
@@ -63,6 +63,10 @@ goalnode
 	{
 		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], null, body.desc, body.notes);
 	}
+	/ depth:nodedepth whitespace goal:goal
+	{
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], null, "", []);
+	}
 	/* children:goalchildren*/
 
 goalbody
@@ -70,7 +74,7 @@ goalbody
 	/ description:description newline notes:notes
 	{ return {notes:notes, desc: description}; }
 	/ description:description
-	{ return {notes:undefined, desc: description}; }
+	{ return {notes:[], desc: description}; }
 
 
 description
