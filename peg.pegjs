@@ -42,8 +42,10 @@ initializer /* FIXME */
 	}
 
 whitespace
-	= text:[ \t\n\r]+
-	{ return text }
+	= _*
+
+_
+	= [ \t\n\r]
 
 newline
 	= [\n]+
@@ -57,23 +59,24 @@ goalnodes
 	{ return list; }
 
 goalnode
-	= depth:nodedepth whitespace? goal:goal body:goalbody? /* children:goalchildren*/
-	{ console.log(body); return goal + " " + depth; }
+	= depth:nodedepth whitespace goal:goal body:goalbody
+	{ console.log("bodybody" + ""); return goal + " " + depth; }
+	/* children:goalchildren*/
 
 goalbody
-	= notes / description notes
-	{ console.log("desc" + desc + "\nnotes" + notes); return {desc: desc.join(""), notes: notes}; }
+	= notes 
+	/ description notes
 
 description
 	= singleline:[a-z]i* newline
-	{ return singleline; }
+	{ return singleline.join(""); }
 
 notes
-	= list:note+
-	{ return list; }
+	= head:note  tail:(newline note+)
+	{ return head; }
 
 note
-	= subject:notesubject whitespace* "::" whitespace* notebody newline
+	= subject:notesubject whitespace* "::" newline notebody newline
 	{ return new _PEG.CaseNote(subject, subjectbody); }
 
 notesubject
