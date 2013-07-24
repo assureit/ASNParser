@@ -66,11 +66,12 @@ goalnode
 	/* children:goalchildren*/
 
 goalbody
-	= notes:notes
-	/ description:description notes:notes?
-	{
-		return {notes:notes, desc: description};
-	}
+	= notes:notes {return "";}
+	/ description:description newline notes:notes
+	{ return {notes:notes, desc: description}; }
+	/ description:description
+	{ return {notes:undefined, desc: description}; }
+
 
 description
 	= singleline:[a-z]i*
@@ -81,7 +82,7 @@ notes
 	{ return head; }
 
 note
-	= subject:notesubject whitespace "::" newline notebody newline
+	= subject:notesubject whitespace "::" newline notebody
 	{ return new _PEG.CaseNote(subject, subjectbody); }
 
 notesubject
