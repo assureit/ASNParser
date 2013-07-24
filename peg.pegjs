@@ -20,7 +20,7 @@ initializer /* FIXME */
 				/* TODO */
 			},
 
-			CaseModel: function(Case, Parent, Type, Label, Statement) {
+			CaseModel: function(Case, Parent, Type, Label, Statement, Notes) {
 				this.Case = Case;
 				this.Parent = Parent;
 				this.Type = Type;
@@ -48,7 +48,7 @@ _
 	= [ \t\n\r]
 
 newline
-	= [\n]+
+	= [\n]
 
 symbol
 	= symbol:([a-z]i+ [0-9a-z]i*)
@@ -59,24 +59,29 @@ goalnodes
 	{ return list; }
 
 goalnode
-	= depth:nodedepth whitespace goal:goal body:goalbody
-	{ console.log("bodybody" + ""); return goal + " " + depth; }
+	= depth:nodedepth whitespace goal:goal newline body:goalbody
+	{
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], null, body.desc, body.notes);
+	}
 	/* children:goalchildren*/
 
 goalbody
-	= notes 
-	/ description notes
+	= notes:notes
+	/ description:description notes:notes?
+	{
+		return {notes:notes, desc: description};
+	}
 
 description
-	= singleline:[a-z]i* newline
+	= singleline:[a-z]i*
 	{ return singleline.join(""); }
 
 notes
-	= head:note  tail:(newline note+)
+	= head:note tail:(newline note)*
 	{ return head; }
 
 note
-	= subject:notesubject whitespace* "::" newline notebody newline
+	= subject:notesubject whitespace "::" newline notebody newline
 	{ return new _PEG.CaseNote(subject, subjectbody); }
 
 notesubject
