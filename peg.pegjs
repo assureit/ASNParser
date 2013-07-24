@@ -61,7 +61,7 @@ goalnode
 	{ console.log(body); return goal + " " + depth; }
 
 goalbody
-	= desc:description? notes:notes?
+	= notes / description notes
 	{ console.log("desc" + desc + "\nnotes" + notes); return {desc: desc.join(""), notes: notes}; }
 
 description
