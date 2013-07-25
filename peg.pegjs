@@ -59,13 +59,11 @@ goalnodes
 	{ return list; }
 
 goalnode
-	= depth:nodedepth whitespace goal:goal whitespace anno:annotations? newline body:goalbody
+	= depth:nodedepth whitespace goal:goal whitespace anno:annotations? body:(newline goalbody)?
 	{
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, body.desc, body.notes);
-	}
-	/ depth:nodedepth whitespace goal:goal whitespace anno:annotations?
-	{
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, "", []);
+		var desc = (body == "") ? "" : body[1].desc;
+		var notes = (body == "") ? "" : body[1].notes;
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, desc, notes);
 	}
 	/* children:goalchildren*/
 
@@ -85,10 +83,8 @@ annotation
 
 goalbody
 	= notes:notes {return "";}
-	/ description:description newline notes:notes
-	{ return {notes:notes, desc: description}; }
-	/ description:description
-	{ return {notes:[], desc: description}; }
+	/ description:description notes:(newline notes)?
+	{ return {notes: notes == "" ? [] : notes[1], desc: description}; }
 
 
 description
@@ -106,10 +102,8 @@ notes
 	}
 
 note
-	= subject:notesubject whitespace "::" newline whitespace body:notebody
-	{ return new _PEG.CaseNote(subject, body); }
-	/ subject:notesubject whitespace "::"
-	{ return new _PEG.CaseNote(subject, {}); }
+	= subject:notesubject whitespace "::" body:(newline whitespace notebody)?
+	{ return new _PEG.CaseNote(subject, body == "" ? {} : body[2]); }
 
 notesubject
 	= subject:symbol
