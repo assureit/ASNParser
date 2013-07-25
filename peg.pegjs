@@ -20,14 +20,14 @@ initializer /* FIXME */
 				/* TODO */
 			},
 
-			CaseModel: function(Case, Parent, Type, Label, Statement, Notes) {
+			CaseModel: function(Case, Parent, Type, Annotations, Statement, Notes) {
 				this.Case = Case;
 				this.Parent = Parent;
 				this.Type = Type;
-				this.Label = Label;
+				this.Label = null; /* TODO how's Label used? */
 				this.Statement = Statement;
 				this.Children = [];
-				this.Annotations = [];
+				this.Annotations = Annotations;
 				this.Notes = Notes;
 				this.x = 0;
 				this.y = 0;
@@ -45,29 +45,43 @@ whitespace
 	= _*
 
 _
-	= [ \t\n\r]
+	= [ \t\r]
 
 newline
 	= [\n]
 
 symbol
 	= symbol:([a-z]i+ [0-9a-z]i*)
-	{ return symbol; }
+	{ return symbol[0].join("") + symbol[1].join(""); }
 
 goalnodes
 	= list:goalnode*
 	{ return list; }
 
 goalnode
-	= depth:nodedepth whitespace goal:goal newline body:goalbody
+	= depth:nodedepth whitespace goal:goal whitespace anno:annotations? newline body:goalbody
 	{
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], null, body.desc, body.notes);
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, body.desc, body.notes);
 	}
-	/ depth:nodedepth whitespace goal:goal
+	/ depth:nodedepth whitespace goal:goal whitespace anno:annotations?
 	{
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], null, "", []);
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, "", []);
 	}
 	/* children:goalchildren*/
+
+annotations
+	= head:annotation tail:(whitespace annotation)*
+	{
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res;
+	}
+
+annotation
+	= "@" symbol:symbol
+	{ return symbol; }
 
 goalbody
 	= notes:notes {return "";}
