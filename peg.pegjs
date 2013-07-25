@@ -54,6 +54,17 @@ symbol
 	= symbol:([a-z]i+ [0-9a-z]i*)
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
+goalnodes
+	= &{ _PEG.currentParsingLevel += 1; return true; }
+	head:goalnode tail:(newline goalnode)*
+	{
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res;
+	}
+
 contextnode
 	= node:contextnode_
 	{ return node; }
@@ -67,11 +78,32 @@ contextnode_
 		return new _PEG.CaseModel(null, null, _PEG.CaseType[context], anno, desc, notes);
 	}
 
+strategynode
+	= node:strategynode_ goalnodes:goalnodes?
+	{
+		if (goalnodes != "") {
+			node.Children.concat(goalnodes);
+		}
+		return node;
+	}
+
+strategynode_
+	= depth:nodedepth &{ return depth == _PEG.currentParsingLevel; }
+	whitespace strategy:strategy whitespace anno:annotations? body:(newline goalbody)?
+	{
+		var desc = (body == "") ? "" : body[1].desc;
+		var notes = (body == "") ? "" : body[1].notes;
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[strategy], anno, desc, notes);
+	}
+
 goalnode
-	= node:goalnode_ context:(newline? contextnode)?
+	= node:goalnode_ context:(newline? contextnode)? strategy:(newline? strategynode)?
 	{ 
 		if (context != "") {
 			node.Children.push(context[1]);
+		}
+		if (strategy != "") {
+			node.Children.push(strategy[1]);
 		}
 		return node; 
 	}
@@ -166,27 +198,9 @@ context
 	{ return "Context"; }
 
 strategy
-	= "strategy" whitespace
+	= text:("strategy" / "Strategy")
 	{ return "Strategy"; }
 
 evidence
-	= "evidence" whitespace
+	= text:("evidence" / "Evidence")
 	{ return "Evidence"; }
-
-//start
-//  = additive
-//
-//additive
-//  = left:multiplicative "+" right:additive { return left + right; }
-//  / multiplicative
-//
-//multiplicative
-//  = left:primary "*" right:multiplicative { return left * right; }
-//  / primary
-//
-//primary
-//  = integer
-//  / "(" additive:additive ")" { return additive; }
-//
-//integer "integer"
-//  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }

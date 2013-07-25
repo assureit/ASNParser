@@ -17,5 +17,7 @@ test("* goal @task @test\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\tto: s
 test("* goal @task @test\ndesc\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\tto: shida");
 test("* goal\nhi\n*context\nhi");
 test("* goal\nhi\n* context\nhi\ntodo::");
+test("* goal\n*context");
 test("* goal @task @test\ndesc\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\tto: shida\n*context\nhi");
 test("* goal @task @test\ndesc\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\tto: shida\n*context\nhi\ntodo::");
+test("* goal\n* strategy");
