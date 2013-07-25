@@ -122,7 +122,7 @@ notebody
 	}
 
 notekeyvalues
-	= head:notekeyvalue tail:(newline whitespace notekeyvalue)*
+	= head:notekeyvalue tail:(newline whitespace notekeyvalue)* !note
 	{ 
 		var res = [head];
 		for (var i in tail) {
