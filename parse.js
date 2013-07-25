@@ -15,3 +15,4 @@ test("* goal @hi @bye\ndesc");
 test("* goal @task\ndesc\ntodo::");
 test("* goal @task @test\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\tto: shida");
 test("* goal @task @test\ndesc\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\tto: shida");
+test("* goal\n*context");

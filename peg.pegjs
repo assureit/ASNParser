@@ -54,16 +54,27 @@ symbol
 	= symbol:([a-z]i+ [0-9a-z]i*)
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
-//contextnode
-//	= &{ _PEG.currentParsingLevel
+contextnode
+	= node:contextnode_
+	{ return node; }
 
-goalnodes
-	= list:goalnode*
-	{ return list; }
+contextnode_
+	= depth:nodedepth &{ return depth == _PEG.currentParsingLevel; }
+	whitespace context:context whitespace anno:annotations? body:(newline goalbody)?
+	{
+		var desc = (body == "") ? "" : body[1].desc;
+		var notes = (body == "") ? "" : body[1].notes;
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[context], anno, desc, notes);
+	}
 
 goalnode
-	= node:goalnode_ //contextnode
-	{ return node; }
+	= node:goalnode_ context:(newline contextnode)?
+	{ 
+		if (context != "") {
+			node.Children.push(context[1]);
+		}
+		return node; 
+	}
 
 goalnode_
 	= depth:nodedepth &{ return depth == _PEG.currentParsingLevel; } 
