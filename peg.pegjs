@@ -68,7 +68,7 @@ contextnode_
 	}
 
 goalnode
-	= node:goalnode_ context:(newline contextnode)?
+	= node:goalnode_ context:(newline? contextnode)?
 	{ 
 		if (context != "") {
 			node.Children.push(context[1]);
@@ -100,7 +100,7 @@ annotation
 
 goalbody
 	= notes:notes {return "";}
-	/ description:description notes:(newline notes)?
+	/ description:description? notes:(newline notes)?
 	{ return {notes: notes == "" ? [] : notes[1], desc: description}; }
 
 
@@ -155,14 +155,14 @@ value
 
 goal
 	= text:("goal" / "Goal")
-	{ console.log("goal"); return "Goal"; }
+	{ return "Goal"; }
 
 nodedepth 
 	= asterisks:[*]+
 	{ return asterisks.length; }
 
 context
-	= "context" whitespace
+	= text:("context" / "Context")
 	{ return "Context"; }
 
 strategy
