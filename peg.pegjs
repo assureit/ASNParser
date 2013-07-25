@@ -145,13 +145,13 @@ annotation
 	{ return symbol; }
 
 goalbody
-	= notes:notes {return "";}
-	/ description:description? notes:(newline notes)?
+	= notes:notes {return {notes:notes};}
+	/ !tabindent description:description? notes:(newline notes)?
 	{ return {notes: notes == "" ? [] : notes[1], desc: description}; }
 
 
 description
-	= singleline:[a-z]i* /* FIXME */
+	= singleline:[a-z0-9 ]i* /* FIXME */
 	{ return singleline.join(""); }
 
 notes
@@ -165,21 +165,29 @@ notes
 	}
 
 note
-	= subject:notesubject whitespace "::" body:(newline whitespace notebody)?
-	{ return new _PEG.CaseNote(subject, body == "" ? {} : body[2]); }
+	= subject:notesubject whitespace "::" body:notebody?
+	{ return new _PEG.CaseNote(subject, body == "" ? {} : body); }
 
 notesubject
 	= subject:symbol
 	{ return subject; }
 
 notebody
-	= kvs:notekeyvalues
+	= kvs:notekeyvalues desc:(newline tabindent description)?
 	{
+		if (desc != "") {
+			kvs.push(["Description", desc[2]]);
+		}
 		return kvs;
 	}
+	/ desc:(newline tabindent description)
+	{ return ["Description", desc[2]]; }
+
+tabindent
+	= [\t ]+
 
 notekeyvalues
-	= head:notekeyvalue tail:(newline whitespace notekeyvalue)* !note
+	= newline tabindent head:notekeyvalue tail:(newline tabindent notekeyvalue)* !note
 	{ 
 		var res = [head];
 		for (var i in tail) {
