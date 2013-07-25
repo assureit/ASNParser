@@ -56,7 +56,7 @@ symbol
 
 goalnodes
 	= &{ _PEG.currentParsingLevel += 1; return true; }
-	head:goalnode tail:(newline goalnode)*
+	  head:goalnode tail:(newline? goalnode)*
 	  &{ _PEG.currentParsingLevel -= 1; return true; }
 	{
 		var res = [head];
@@ -98,14 +98,24 @@ strategynode_
 	}
 
 goalnode
-	= node:goalnode_ context:(newline? contextnode)? strategy:(newline? strategynode)?
+	= node:goalnode_ context:(newline? contextnode) strategy:(newline? strategynode)
 	{ 
-		if (context != "") {
-			node.Children.push(context[1]);
-		}
-		if (strategy != "") {
-			node.Children.push(strategy[1]);
-		}
+		node.Children.push(context[1]);
+		node.Children.push(strategy[1]);
+		return node; 
+	}
+	/ node:goalnode_ context:(newline? contextnode)
+	{ 
+		node.Children.push(context[1]);
+		return node; 
+	}
+	/ node:goalnode_ strategy:(newline? strategynode)
+	{ 
+		node.Children.push(strategy[1]);
+		return node; 
+	}
+	/ node:goalnode_
+	{ 
 		return node; 
 	}
 
