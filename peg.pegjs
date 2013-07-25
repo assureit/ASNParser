@@ -54,19 +54,25 @@ symbol
 	= symbol:([a-z]i+ [0-9a-z]i*)
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
+//contextnode
+//	= &{ _PEG.currentParsingLevel
+
 goalnodes
 	= list:goalnode*
 	{ return list; }
 
 goalnode
-	= depth:nodedepth whitespace goal:goal whitespace anno:annotations? body:(newline goalbody)?
+	= node:goalnode_ //contextnode
+	{ return node; }
+
+goalnode_
+	= depth:nodedepth &{ return depth == _PEG.currentParsingLevel; } 
+	whitespace goal:goal whitespace anno:annotations? body:(newline goalbody)?
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
 		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, desc, notes);
 	}
-	/* children:goalchildren*/
-
 annotations
 	= head:annotation tail:(whitespace annotation)*
 	{
@@ -136,12 +142,6 @@ key
 value
 	= value:symbol /* FIXME */
 
-notedescription
-	= "" /* TODO */
-
-goalchildren
-	= "" /* TODO */
-
 goal
 	= text:("goal" / "Goal")
 	{ console.log("goal"); return "Goal"; }
@@ -149,10 +149,6 @@ goal
 nodedepth 
 	= asterisks:[*]+
 	{ return asterisks.length; }
-
-nodename
-	= name: (goal / context / strategy / evidence)
-	{ return _PEG.CaseType[name]; }
 
 context
 	= "context" whitespace
