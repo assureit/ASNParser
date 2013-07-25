@@ -57,6 +57,7 @@ symbol
 goalnodes
 	= &{ _PEG.currentParsingLevel += 1; return true; }
 	head:goalnode tail:(newline goalnode)*
+	  &{ _PEG.currentParsingLevel -= 1; return true; }
 	{
 		var res = [head];
 		for (var i in tail) {
@@ -82,7 +83,7 @@ strategynode
 	= node:strategynode_ goalnodes:goalnodes?
 	{
 		if (goalnodes != "") {
-			node.Children.concat(goalnodes);
+			node.Children = node.Children.concat(goalnodes);
 		}
 		return node;
 	}
