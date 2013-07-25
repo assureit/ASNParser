@@ -79,6 +79,19 @@ contextnode_
 		return new _PEG.CaseModel(null, null, _PEG.CaseType[context], anno, desc, notes);
 	}
 
+evidencenode
+	= node:evidencenode_
+	{ return node; }
+
+evidencenode_
+	= depth:nodedepth &{ return depth == _PEG.currentParsingLevel; }
+	whitespace evidence:evidence whitespace anno:annotations? body:(newline goalbody)?
+	{
+		var desc = (body == "") ? "" : body[1].desc;
+		var notes = (body == "") ? "" : body[1].notes;
+		return new _PEG.CaseModel(null, null, _PEG.CaseType[evidence], anno, desc, notes);
+	}
+
 strategynode
 	= node:strategynode_ context:contextnode? goalnodes:goalnodes?
 	{
@@ -107,9 +120,20 @@ goalnode
 		node.Children.push(strategy[1]);
 		return node; 
 	}
+	/ node:goalnode_ context:(newline? contextnode) evidence:(newline? evidencenode)
+	{ 
+		node.Children.push(context[1]);
+		node.Children.push(evidence[1]);
+		return node; 
+	}
 	/ node:goalnode_ context:(newline? contextnode)
 	{ 
 		node.Children.push(context[1]);
+		return node; 
+	}
+	/ node:goalnode_ evidence:(newline? evidencenode)
+	{ 
+		node.Children.push(evidence[1]);
 		return node; 
 	}
 	/ node:goalnode_ strategy:(newline? strategynode)

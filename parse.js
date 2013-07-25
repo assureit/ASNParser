@@ -26,3 +26,4 @@ test("* goal\n* strategy\n** goal\n**strategy @test\n***goal");
 test("* goal\n* strategy\n** goal\ntest\n**strategy @test\n***goal\n** goal\n** strategy @test\n**context *** goal");
 test("* goal\nTODO::\n\tsystem is dependable");
 test("* goal\nTODO::\n\tto: all\n\tsystem is dependable");
+test("* goal\n* evidence");
