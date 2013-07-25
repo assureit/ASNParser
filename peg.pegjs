@@ -80,8 +80,11 @@ contextnode_
 	}
 
 strategynode
-	= node:strategynode_ goalnodes:goalnodes?
+	= node:strategynode_ context:contextnode? goalnodes:goalnodes?
 	{
+		if (context != "") {
+			node.Children = node.Children.concat([context]);
+		}
 		if (goalnodes != "") {
 			node.Children = node.Children.concat(goalnodes);
 		}

@@ -23,4 +23,4 @@ test("* goal @task @test\ndesc\ntodo::\n\tto: shida\n\t subject: hi\nticket::\n\
 test("* goal\n* strategy");
 test("* goal\n* strategy\n** goal\n**strategy\n***goal");
 test("* goal\n* strategy\n** goal\n**strategy @test\n***goal");
-test("* goal\n* strategy\n** goal\ntest\n**strategy @test\n***goal\n** goal");
+test("* goal\n* strategy\n** goal\ntest\n**strategy @test\n***goal\n** goal\n** strategy @test\n**context *** goal");
