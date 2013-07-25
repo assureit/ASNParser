@@ -27,3 +27,5 @@ test("* goal\n* strategy\n** goal\ntest\n**strategy @test\n***goal\n** goal\n** 
 test("* goal\nTODO::\n\tsystem is dependable");
 test("* goal\nTODO::\n\tto: all\n\tsystem is dependable");
 test("* goal\n* evidence");
+test("* goal\nsystem is dependable\ntodo::\n\tTo: all\n\tprovide all available evidence\nagda::\n\tthe claim is ambiguous\n* context");
+test("* goal\nsystem is dependable\n* context @def\n* strategy\n** goal\n** evidence @task\n**goal");
