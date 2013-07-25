@@ -92,38 +92,47 @@ goalbody
 
 
 description
-	= singleline:[a-z]i*
+	= singleline:[a-z]i* /* FIXME */
 	{ return singleline.join(""); }
 
 notes
 	= head:note tail:(newline note)*
-	{ return head; }
+	{ 
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res;
+	}
 
 note
-	= subject:notesubject whitespace "::" newline notebody
-	{ return new _PEG.CaseNote(subject, subjectbody); }
+	= subject:notesubject whitespace "::" newline whitespace body:notebody
+	{ return new _PEG.CaseNote(subject, body); }
+	/ subject:notesubject whitespace "::"
+	{ return new _PEG.CaseNote(subject, {}); }
 
 notesubject
 	= subject:symbol
 	{ return subject; }
 
 notebody
-	= kvs:notekeyvalues* desc:notedescription*
+	= kvs:notekeyvalues
 	{
-		var res = {};
-		for (var kv in kvs)  {
-			res[kv[0]] = kv[1];
-		}
-		res["Description"] = desc;
-		return res;
+		return kvs;
 	}
 
 notekeyvalues
-	= kvs:notekeyvalue*
-	{ return kvs; }
+	= head:notekeyvalue tail:(newline whitespace notekeyvalue)*
+	{ 
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][2]);
+		}
+		return res;
+	}
 
 notekeyvalue
-	= key whitespace ":" whitespace value newline
+	= key:key whitespace ":" whitespace value:value
 	{ return [key, value]; }
 
 key
@@ -131,7 +140,7 @@ key
 	{ return key; }
 
 value
-	= value:[a-z]i* newline
+	= value:symbol /* FIXME */
 
 notedescription
 	= "" /* TODO */
