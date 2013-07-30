@@ -55,9 +55,9 @@ symbol
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
 goalnodes
-	= &{ _PEG.currentParsingLevel += 1; return true; }
+	= &{ console.log("++"); _PEG.currentParsingLevel += 1; return true; }
 	  head:goalnode tail:(newline? goalnode)*
-	  &{ _PEG.currentParsingLevel -= 1; return true; }
+	  &{ console.log("--"); _PEG.currentParsingLevel -= 1; return true; }
 	{
 		var res = [head];
 		for (var i in tail) {
@@ -65,6 +65,8 @@ goalnodes
 		}
 		return res;
 	}
+	/* In case parsing goalnodes above decrement parsing level */
+	/ &{ _PEG.currentParsingLevel -= 1; return true; }
 
 contextnode
 	= node:contextnode_
@@ -107,10 +109,6 @@ strategynode
 	/ node:strategynode_ goalnodes:goalnodes
 	{
 		node.Children = node.Children.concat(goalnodes);
-		return node;
-	}
-	/ node:strategynode_
-	{
 		return node;
 	}
 

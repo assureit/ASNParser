@@ -326,7 +326,7 @@ module.exports = (function(){
         
         pos0 = pos;
         pos1 = pos;
-        result0 = (function(offset) { _PEG.currentParsingLevel += 1; return true; })(pos) ? "" : null;
+        result0 = (function(offset) { console.log("++"); _PEG.currentParsingLevel += 1; return true; })(pos) ? "" : null;
         if (result0 !== null) {
           result1 = parse_goalnode();
           if (result1 !== null) {
@@ -365,7 +365,7 @@ module.exports = (function(){
               }
             }
             if (result2 !== null) {
-              result3 = (function(offset, head, tail) { _PEG.currentParsingLevel -= 1; return true; })(pos, result1, result2) ? "" : null;
+              result3 = (function(offset, head, tail) { console.log("--"); _PEG.currentParsingLevel -= 1; return true; })(pos, result1, result2) ? "" : null;
               if (result3 !== null) {
                 result0 = [result0, result1, result2, result3];
               } else {
@@ -395,6 +395,9 @@ module.exports = (function(){
         }
         if (result0 === null) {
           pos = pos0;
+        }
+        if (result0 === null) {
+          result0 = (function(offset) { _PEG.currentParsingLevel -= 1; return true; })(pos) ? "" : null;
         }
         return result0;
       }
@@ -667,18 +670,6 @@ module.exports = (function(){
             }
             if (result0 === null) {
               pos = pos0;
-            }
-            if (result0 === null) {
-              pos0 = pos;
-              result0 = parse_strategynode_();
-              if (result0 !== null) {
-                result0 = (function(offset, node) {
-              		return node;
-              	})(pos0, result0);
-              }
-              if (result0 === null) {
-                pos = pos0;
-              }
             }
           }
         }
