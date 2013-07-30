@@ -1,5 +1,5 @@
 start
-	= initializer goalnode whitespace
+	= initializer goalnode whitespace?
 
 initializer /* FIXME */
 	= ""
@@ -93,14 +93,24 @@ evidencenode_
 	}
 
 strategynode
-	= node:strategynode_ context:contextnode? goalnodes:goalnodes?
+	= node:strategynode_ context:contextnode goalnodes:goalnodes
 	{
-		if (context != "") {
-			node.Children = node.Children.concat([context]);
-		}
-		if (goalnodes != "") {
-			node.Children = node.Children.concat(goalnodes);
-		}
+		node.Children = node.Children.concat([context]);
+		node.Children = node.Children.concat(goalnodes);
+		return node;
+	}
+	/ node:strategynode_ context:contextnode
+	{
+		node.Children = node.Children.concat([context]);
+		return node;
+	}
+	/ node:strategynode_ goalnodes:goalnodes
+	{
+		node.Children = node.Children.concat(goalnodes);
+		return node;
+	}
+	/ node:strategynode_
+	{
 		return node;
 	}
 

@@ -135,6 +135,7 @@ module.exports = (function(){
           result1 = parse_goalnode();
           if (result1 !== null) {
             result2 = parse_whitespace();
+            result2 = result2 !== null ? result2 : "";
             if (result2 !== null) {
               result0 = [result0, result1, result2];
             } else {
@@ -591,10 +592,8 @@ module.exports = (function(){
         result0 = parse_strategynode_();
         if (result0 !== null) {
           result1 = parse_contextnode();
-          result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
             result2 = parse_goalnodes();
-            result2 = result2 !== null ? result2 : "";
             if (result2 !== null) {
               result0 = [result0, result1, result2];
             } else {
@@ -611,17 +610,77 @@ module.exports = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, node, context, goalnodes) {
-        		if (context != "") {
-        			node.Children = node.Children.concat([context]);
-        		}
-        		if (goalnodes != "") {
-        			node.Children = node.Children.concat(goalnodes);
-        		}
+        		node.Children = node.Children.concat([context]);
+        		node.Children = node.Children.concat(goalnodes);
         		return node;
         	})(pos0, result0[0], result0[1], result0[2]);
         }
         if (result0 === null) {
           pos = pos0;
+        }
+        if (result0 === null) {
+          pos0 = pos;
+          pos1 = pos;
+          result0 = parse_strategynode_();
+          if (result0 !== null) {
+            result1 = parse_contextnode();
+            if (result1 !== null) {
+              result0 = [result0, result1];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+          if (result0 !== null) {
+            result0 = (function(offset, node, context) {
+          		node.Children = node.Children.concat([context]);
+          		return node;
+          	})(pos0, result0[0], result0[1]);
+          }
+          if (result0 === null) {
+            pos = pos0;
+          }
+          if (result0 === null) {
+            pos0 = pos;
+            pos1 = pos;
+            result0 = parse_strategynode_();
+            if (result0 !== null) {
+              result1 = parse_goalnodes();
+              if (result1 !== null) {
+                result0 = [result0, result1];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+            if (result0 !== null) {
+              result0 = (function(offset, node, goalnodes) {
+            		node.Children = node.Children.concat(goalnodes);
+            		return node;
+            	})(pos0, result0[0], result0[1]);
+            }
+            if (result0 === null) {
+              pos = pos0;
+            }
+            if (result0 === null) {
+              pos0 = pos;
+              result0 = parse_strategynode_();
+              if (result0 !== null) {
+                result0 = (function(offset, node) {
+              		return node;
+              	})(pos0, result0);
+              }
+              if (result0 === null) {
+                pos = pos0;
+              }
+            }
+          }
         }
         return result0;
       }
