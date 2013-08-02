@@ -150,6 +150,72 @@ module.exports = (function(){
           result0 = null;
           pos = pos0;
         }
+        if (result0 === null) {
+          pos0 = pos;
+          result0 = parse_initializer();
+          if (result0 !== null) {
+            result1 = parse_contextnode();
+            if (result1 !== null) {
+              result2 = parse_whitespace();
+              if (result2 !== null) {
+                result0 = [result0, result1, result2];
+              } else {
+                result0 = null;
+                pos = pos0;
+              }
+            } else {
+              result0 = null;
+              pos = pos0;
+            }
+          } else {
+            result0 = null;
+            pos = pos0;
+          }
+          if (result0 === null) {
+            pos0 = pos;
+            result0 = parse_initializer();
+            if (result0 !== null) {
+              result1 = parse_strategynode();
+              if (result1 !== null) {
+                result2 = parse_whitespace();
+                if (result2 !== null) {
+                  result0 = [result0, result1, result2];
+                } else {
+                  result0 = null;
+                  pos = pos0;
+                }
+              } else {
+                result0 = null;
+                pos = pos0;
+              }
+            } else {
+              result0 = null;
+              pos = pos0;
+            }
+            if (result0 === null) {
+              pos0 = pos;
+              result0 = parse_initializer();
+              if (result0 !== null) {
+                result1 = parse_evidencenode();
+                if (result1 !== null) {
+                  result2 = parse_whitespace();
+                  if (result2 !== null) {
+                    result0 = [result0, result1, result2];
+                  } else {
+                    result0 = null;
+                    pos = pos0;
+                  }
+                } else {
+                  result0 = null;
+                  pos = pos0;
+                }
+              } else {
+                result0 = null;
+                pos = pos0;
+              }
+            }
+          }
+        }
         return result0;
       }
       
@@ -670,6 +736,18 @@ module.exports = (function(){
             }
             if (result0 === null) {
               pos = pos0;
+            }
+            if (result0 === null) {
+              pos0 = pos;
+              result0 = parse_strategynode_();
+              if (result0 !== null) {
+                result0 = (function(offset, node) {
+              		return node;
+              	})(pos0, result0);
+              }
+              if (result0 === null) {
+                pos = pos0;
+              }
             }
           }
         }
