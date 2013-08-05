@@ -1,5 +1,8 @@
 start
 	= initializer goalnode whitespace?
+	/ initializer contextnode whitespace
+	/ initializer strategynode whitespace
+	/ initializer evidencenode whitespace
 
 initializer /* FIXME */
 	= ""
@@ -109,6 +112,10 @@ strategynode
 	/ node:strategynode_ goalnodes:goalnodes
 	{
 		node.Children = node.Children.concat(goalnodes);
+		return node;
+	}
+	/ node:strategynode_
+	{
 		return node;
 	}
 
