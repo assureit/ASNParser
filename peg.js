@@ -1355,7 +1355,7 @@ Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, symbol) { return symbol; })(pos0, result0[1]);
+          result0 = (function(offset, symbol) { return {"Name": symbol, "Body": ""}; })(pos0, result0[1]);
         }
         if (result0 === null) {
           pos = pos0;

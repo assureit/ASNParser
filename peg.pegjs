@@ -197,7 +197,7 @@ annotations
 
 annotation
 	= "@" symbol:symbol
-	{ return symbol; }
+	{ return {"Name": symbol, "Body": ""}; }
 
 goalbody
 	= notes:notes {return {notes:notes};}
