@@ -57,6 +57,7 @@ Peg = (function(){
         "annotation": parse_annotation,
         "goalbody": parse_goalbody,
         "description": parse_description,
+        "singleline": parse_singleline,
         "notes": parse_notes,
         "note": parse_note,
         "notesubject": parse_notesubject,
@@ -1432,34 +1433,156 @@ Peg = (function(){
       }
       
       function parse_description() {
-        var result0, result1;
-        var pos0;
+        var result0, result1, result2, result3;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
-        result0 = [];
-        if (/^[a-z0-9 ]/i.test(input.charAt(pos))) {
-          result1 = input.charAt(pos);
-          pos++;
-        } else {
-          result1 = null;
-          if (reportFailures === 0) {
-            matchFailed("[a-z0-9 ]i");
+        pos1 = pos;
+        result0 = parse_singleline();
+        if (result0 !== null) {
+          result1 = [];
+          pos2 = pos;
+          if (/^[\n\r]/.test(input.charAt(pos))) {
+            result2 = input.charAt(pos);
+            pos++;
+          } else {
+            result2 = null;
+            if (reportFailures === 0) {
+              matchFailed("[\\n\\r]");
+            }
           }
+          if (result2 !== null) {
+            result3 = parse_singleline();
+            if (result3 !== null) {
+              result2 = [result2, result3];
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+          } else {
+            result2 = null;
+            pos = pos2;
+          }
+          while (result2 !== null) {
+            result1.push(result2);
+            pos2 = pos;
+            if (/^[\n\r]/.test(input.charAt(pos))) {
+              result2 = input.charAt(pos);
+              pos++;
+            } else {
+              result2 = null;
+              if (reportFailures === 0) {
+                matchFailed("[\\n\\r]");
+              }
+            }
+            if (result2 !== null) {
+              result3 = parse_singleline();
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+          }
+          if (result1 !== null) {
+            result0 = [result0, result1];
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
         }
-        while (result1 !== null) {
-          result0.push(result1);
-          if (/^[a-z0-9 ]/i.test(input.charAt(pos))) {
+        if (result0 !== null) {
+          result0 = (function(offset, head, tail) { 
+        		var res = [head];
+        		for (var i in tail) {
+        			res.push(tail[i][1]);
+        		}
+        		return res.join("\n");
+        	})(pos0, result0[0], result0[1]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_singleline() {
+        var result0, result1, result2, result3;
+        var pos0, pos1, pos2;
+        
+        pos0 = pos;
+        pos1 = pos;
+        result0 = (function(offset) {
+        		var subs = input.substr(offset);
+        		var toIndex = (subs.indexOf("\n") == -1) ? subs.length : subs.indexOf("\n");
+        		var singleline = subs.substr(0, toIndex);
+        		return singleline.indexOf("::") == -1;
+        	})(pos) ? "" : null;
+        if (result0 !== null) {
+          pos2 = pos;
+          reportFailures++;
+          if (/^[ \t]/.test(input.charAt(pos))) {
             result1 = input.charAt(pos);
             pos++;
           } else {
             result1 = null;
             if (reportFailures === 0) {
-              matchFailed("[a-z0-9 ]i");
+              matchFailed("[ \\t]");
             }
           }
+          reportFailures--;
+          if (result1 === null) {
+            result1 = "";
+          } else {
+            result1 = null;
+            pos = pos2;
+          }
+          if (result1 !== null) {
+            result2 = [];
+            if (/^[a-z0-9 \t:!"#$%&'()=-~|{}+;_?\/><,]/i.test(input.charAt(pos))) {
+              result3 = input.charAt(pos);
+              pos++;
+            } else {
+              result3 = null;
+              if (reportFailures === 0) {
+                matchFailed("[a-z0-9 \\t:!\"#$%&'()=-~|{}+;_?\\/><,]i");
+              }
+            }
+            while (result3 !== null) {
+              result2.push(result3);
+              if (/^[a-z0-9 \t:!"#$%&'()=-~|{}+;_?\/><,]/i.test(input.charAt(pos))) {
+                result3 = input.charAt(pos);
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("[a-z0-9 \\t:!\"#$%&'()=-~|{}+;_?\\/><,]i");
+                }
+              }
+            }
+            if (result2 !== null) {
+              result0 = [result0, result1, result2];
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, singleline) { return singleline.join(""); })(pos0, result0);
+          result0 = (function(offset, line) { return line.join(""); })(pos0, result0[2]);
         }
         if (result0 === null) {
           pos = pos0;

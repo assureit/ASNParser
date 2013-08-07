@@ -206,8 +206,26 @@ goalbody
 
 
 description
-	= singleline:[a-z0-9 ]i* /* FIXME */
-	{ return singleline.join(""); }
+	= head:singleline tail:([\n\r] singleline)*
+	{ 
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res.join("\n");
+	}
+	//= singleline:[a-z0-9 ]i* /* FIXME */
+	//{ return singleline.join(""); }
+
+singleline
+	= &{
+		var subs = input.substr(offset);
+		var toIndex = (subs.indexOf("\n") == -1) ? subs.length : subs.indexOf("\n");
+		var singleline = subs.substr(0, toIndex);
+		return singleline.indexOf("::") == -1;
+	}
+	![ \t] line:[a-z0-9 \t:!"#$%&'()=-~|{}+;_?/><,]i*
+	{ return line.join(""); }
 
 notes
 	= head:note tail:(newline note)*
