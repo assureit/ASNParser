@@ -54,7 +54,7 @@ newline
 	= [\n]
 
 symbol
-	= symbol:([a-z]i+ [0-9a-z]i*)
+	= symbol:([0-9a-z]i+ [0-9a-z]i*)
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
 goalnodes
@@ -249,12 +249,13 @@ notebody
 	= kvs:notekeyvalues desc:(newline tabindent description)?
 	{
 		if (desc != "") {
-			kvs.push(["Description", desc[2]]);
+			//kvs.push(["Description", desc[2]]);
+			kvs["Description"] = desc[2];
 		}
 		return kvs;
 	}
 	/ desc:(newline tabindent description)
-	{ return ["Description", desc[2]]; }
+	{ console.log("hi");return {"Description": desc[2]}; }
 
 tabindent
 	= [\t ]+
@@ -262,9 +263,11 @@ tabindent
 notekeyvalues
 	= newline tabindent head:notekeyvalue tail:(newline tabindent notekeyvalue)* !note
 	{ 
-		var res = [head];
+		var res = {};
+		res[head[0]] = head[1];
 		for (var i in tail) {
-			res.push(tail[i][2]);
+			//res.push(tail[i][2]);
+			res[tail[i][0]] = tail[i][1];
 		}
 		return res;
 	}

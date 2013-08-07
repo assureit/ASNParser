@@ -320,26 +320,26 @@ Peg = (function(){
         
         pos0 = pos;
         pos1 = pos;
-        if (/^[a-z]/i.test(input.charAt(pos))) {
+        if (/^[0-9a-z]/i.test(input.charAt(pos))) {
           result1 = input.charAt(pos);
           pos++;
         } else {
           result1 = null;
           if (reportFailures === 0) {
-            matchFailed("[a-z]i");
+            matchFailed("[0-9a-z]i");
           }
         }
         if (result1 !== null) {
           result0 = [];
           while (result1 !== null) {
             result0.push(result1);
-            if (/^[a-z]/i.test(input.charAt(pos))) {
+            if (/^[0-9a-z]/i.test(input.charAt(pos))) {
               result1 = input.charAt(pos);
               pos++;
             } else {
               result1 = null;
               if (reportFailures === 0) {
-                matchFailed("[a-z]i");
+                matchFailed("[0-9a-z]i");
               }
             }
           }
@@ -1761,7 +1761,8 @@ Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, kvs, desc) {
         		if (desc != "") {
-        			kvs.push(["Description", desc[2]]);
+        			//kvs.push(["Description", desc[2]]);
+        			kvs["Description"] = desc[2];
         		}
         		return kvs;
         	})(pos0, result0[0], result0[1]);
@@ -1792,7 +1793,7 @@ Peg = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, desc) { return ["Description", desc[2]]; })(pos0, result0);
+            result0 = (function(offset, desc) { console.log("hi");return {"Description": desc[2]}; })(pos0, result0);
           }
           if (result0 === null) {
             pos = pos0;
@@ -1924,9 +1925,11 @@ Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, head, tail) { 
-        		var res = [head];
+        		var res = {};
+        		res[head[0]] = head[1];
         		for (var i in tail) {
-        			res.push(tail[i][2]);
+        			//res.push(tail[i][2]);
+        			res[tail[i][0]] = tail[i][1];
         		}
         		return res;
         	})(pos0, result0[2], result0[3]);
