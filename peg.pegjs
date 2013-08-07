@@ -103,6 +103,16 @@ evidencenode_
 		return new _PEG.CaseModel(null, null, _PEG.CaseType[evidence], anno, desc, notes);
 	}
 
+evidencenodes
+	= head:evidencenode tail:(newline? evidencenode)*
+	{
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res;
+	}
+
 strategynode
 	= node:strategynode_ context:contextnode goalnodes:goalnodes
 	{
@@ -141,10 +151,10 @@ goalnode
 		node.Children.push(strategy[1]);
 		return node; 
 	}
-	/ node:goalnode_ context:(newline? contextnode) evidence:(newline? evidencenode)
+	/ node:goalnode_ context:(newline? contextnode) evidence:(newline? evidencenodes)
 	{ 
 		node.Children.push(context[1]);
-		node.Children.push(evidence[1]);
+		node.Children = node.Children.concat(evidence[1]);
 		return node; 
 	}
 	/ node:goalnode_ context:(newline? contextnode)
@@ -152,9 +162,9 @@ goalnode
 		node.Children.push(context[1]);
 		return node; 
 	}
-	/ node:goalnode_ evidence:(newline? evidencenode)
+	/ node:goalnode_ evidence:(newline? evidencenodes)
 	{ 
-		node.Children.push(evidence[1]);
+		node.Children = node.Children.concat(evidence[1]);
 		return node; 
 	}
 	/ node:goalnode_ strategy:(newline? strategynode)

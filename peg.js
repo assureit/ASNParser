@@ -48,6 +48,7 @@ Peg = (function(){
         "contextnode_": parse_contextnode_,
         "evidencenode": parse_evidencenode,
         "evidencenode_": parse_evidencenode_,
+        "evidencenodes": parse_evidencenodes,
         "strategynode": parse_strategynode,
         "strategynode_": parse_strategynode_,
         "goalnode": parse_goalnode,
@@ -679,6 +680,73 @@ Peg = (function(){
         return result0;
       }
       
+      function parse_evidencenodes() {
+        var result0, result1, result2, result3;
+        var pos0, pos1, pos2;
+        
+        pos0 = pos;
+        pos1 = pos;
+        result0 = parse_evidencenode();
+        if (result0 !== null) {
+          result1 = [];
+          pos2 = pos;
+          result2 = parse_newline();
+          result2 = result2 !== null ? result2 : "";
+          if (result2 !== null) {
+            result3 = parse_evidencenode();
+            if (result3 !== null) {
+              result2 = [result2, result3];
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+          } else {
+            result2 = null;
+            pos = pos2;
+          }
+          while (result2 !== null) {
+            result1.push(result2);
+            pos2 = pos;
+            result2 = parse_newline();
+            result2 = result2 !== null ? result2 : "";
+            if (result2 !== null) {
+              result3 = parse_evidencenode();
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+          }
+          if (result1 !== null) {
+            result0 = [result0, result1];
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, head, tail) {
+        		var res = [head];
+        		for (var i in tail) {
+        			res.push(tail[i][1]);
+        		}
+        		return res;
+        	})(pos0, result0[0], result0[1]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
       function parse_strategynode() {
         var result0, result1, result2;
         var pos0, pos1;
@@ -946,7 +1014,7 @@ Peg = (function(){
               result2 = parse_newline();
               result2 = result2 !== null ? result2 : "";
               if (result2 !== null) {
-                result3 = parse_evidencenode();
+                result3 = parse_evidencenodes();
                 if (result3 !== null) {
                   result2 = [result2, result3];
                 } else {
@@ -974,7 +1042,7 @@ Peg = (function(){
           if (result0 !== null) {
             result0 = (function(offset, node, context, evidence) { 
           		node.Children.push(context[1]);
-          		node.Children.push(evidence[1]);
+          		node.Children = node.Children.concat(evidence[1]);
           		return node; 
           	})(pos0, result0[0], result0[1], result0[2]);
           }
@@ -1029,7 +1097,7 @@ Peg = (function(){
                 result1 = parse_newline();
                 result1 = result1 !== null ? result1 : "";
                 if (result1 !== null) {
-                  result2 = parse_evidencenode();
+                  result2 = parse_evidencenodes();
                   if (result2 !== null) {
                     result1 = [result1, result2];
                   } else {
@@ -1052,7 +1120,7 @@ Peg = (function(){
               }
               if (result0 !== null) {
                 result0 = (function(offset, node, evidence) { 
-              		node.Children.push(evidence[1]);
+              		node.Children = node.Children.concat(evidence[1]);
               		return node; 
               	})(pos0, result0[0], result0[1]);
               }

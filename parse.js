@@ -34,3 +34,7 @@ test("* goal\n* strategy");
 test("* goal\n* strategy\n**goal @task @test\ndesc\ntodo::\n\tto:tsuji\n\tsubject:hi\nticket::\n\tto:tsuji\n** strategy\n** goal\n** goal\n** goal"); 
 test("* strategy\n** goal");
 test("* evidence\n* context");
+test("* strategy\n*context\n**goal");
+
+test("*Goal\n*Strategy\n*Context\n**Goal\nHoge\n**Evidence\n**Goal\n**Context\n**Evidence\n**Context\n**Evidence\n**Goal\n**Evidence");
+test("*Goal\n*Evidence\n*Evidence");
