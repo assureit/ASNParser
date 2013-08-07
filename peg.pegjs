@@ -85,7 +85,13 @@ contextnode_
 	}
 
 evidencenode
-	= node:evidencenode_
+	= node:evidencenode_ context:contextnode
+	{
+		console.log(context);
+		node.Children = node.Children.concat([context]);
+		return node;
+	}
+	/ node:evidencenode_
 	{ return node; }
 
 evidencenode_

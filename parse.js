@@ -33,3 +33,4 @@ test("* goal\n* evidence");
 test("* goal\n* strategy");
 test("* goal\n* strategy\n**goal @task @test\ndesc\ntodo::\n\tto:tsuji\n\tsubject:hi\nticket::\n\tto:tsuji\n** strategy\n** goal\n** goal\n** goal"); 
 test("* strategy\n** goal");
+test("* evidence\n* context");
