@@ -394,7 +394,7 @@ Peg = (function(){
         
         pos0 = pos;
         pos1 = pos;
-        result0 = (function(offset) { console.log("++"); _PEG.currentParsingLevel += 1; return true; })(pos) ? "" : null;
+        result0 = (function(offset) { _PEG.currentParsingLevel += 1; return true; })(pos) ? "" : null;
         if (result0 !== null) {
           result1 = parse_goalnode();
           if (result1 !== null) {
@@ -433,7 +433,7 @@ Peg = (function(){
               }
             }
             if (result2 !== null) {
-              result3 = (function(offset, head, tail) { console.log("--"); _PEG.currentParsingLevel -= 1; return true; })(pos, result1, result2) ? "" : null;
+              result3 = (function(offset, head, tail) { _PEG.currentParsingLevel -= 1; return true; })(pos, result1, result2) ? "" : null;
               if (result3 !== null) {
                 result0 = [result0, result1, result2, result3];
               } else {
@@ -563,14 +563,28 @@ Peg = (function(){
       }
       
       function parse_evidencenode() {
-        var result0, result1;
-        var pos0, pos1;
+        var result0, result1, result2;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
         pos1 = pos;
         result0 = parse_evidencenode_();
         if (result0 !== null) {
-          result1 = parse_contextnode();
+          pos2 = pos;
+          result1 = parse_newline();
+          result1 = result1 !== null ? result1 : "";
+          if (result1 !== null) {
+            result2 = parse_contextnode();
+            if (result2 !== null) {
+              result1 = [result1, result2];
+            } else {
+              result1 = null;
+              pos = pos2;
+            }
+          } else {
+            result1 = null;
+            pos = pos2;
+          }
           if (result1 !== null) {
             result0 = [result0, result1];
           } else {
@@ -583,8 +597,7 @@ Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, node, context) {
-        		console.log(context);
-        		node.Children = node.Children.concat([context]);
+        		node.Children = node.Children.concat([context[1]]);
         		return node;
         	})(pos0, result0[0], result0[1]);
         }
@@ -750,13 +763,27 @@ Peg = (function(){
       
       function parse_strategynode() {
         var result0, result1, result2;
-        var pos0, pos1;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
         pos1 = pos;
         result0 = parse_strategynode_();
         if (result0 !== null) {
-          result1 = parse_contextnode();
+          pos2 = pos;
+          result1 = parse_newline();
+          result1 = result1 !== null ? result1 : "";
+          if (result1 !== null) {
+            result2 = parse_contextnode();
+            if (result2 !== null) {
+              result1 = [result1, result2];
+            } else {
+              result1 = null;
+              pos = pos2;
+            }
+          } else {
+            result1 = null;
+            pos = pos2;
+          }
           if (result1 !== null) {
             result2 = parse_goalnodes();
             if (result2 !== null) {
@@ -775,7 +802,7 @@ Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, node, context, goalnodes) {
-        		node.Children = node.Children.concat([context]);
+        		node.Children = node.Children.concat([context[1]]);
         		node.Children = node.Children.concat(goalnodes);
         		return node;
         	})(pos0, result0[0], result0[1], result0[2]);
@@ -788,7 +815,21 @@ Peg = (function(){
           pos1 = pos;
           result0 = parse_strategynode_();
           if (result0 !== null) {
-            result1 = parse_contextnode();
+            pos2 = pos;
+            result1 = parse_newline();
+            result1 = result1 !== null ? result1 : "";
+            if (result1 !== null) {
+              result2 = parse_contextnode();
+              if (result2 !== null) {
+                result1 = [result1, result2];
+              } else {
+                result1 = null;
+                pos = pos2;
+              }
+            } else {
+              result1 = null;
+              pos = pos2;
+            }
             if (result1 !== null) {
               result0 = [result0, result1];
             } else {
@@ -801,7 +842,7 @@ Peg = (function(){
           }
           if (result0 !== null) {
             result0 = (function(offset, node, context) {
-          		node.Children = node.Children.concat([context]);
+          		node.Children = node.Children.concat([context[1]]);
           		return node;
           	})(pos0, result0[0], result0[1]);
           }
@@ -1528,13 +1569,13 @@ Peg = (function(){
         if (result0 !== null) {
           pos2 = pos;
           reportFailures++;
-          if (/^[ \t]/.test(input.charAt(pos))) {
+          if (/^[ \t*]/.test(input.charAt(pos))) {
             result1 = input.charAt(pos);
             pos++;
           } else {
             result1 = null;
             if (reportFailures === 0) {
-              matchFailed("[ \\t]");
+              matchFailed("[ \\t*]");
             }
           }
           reportFailures--;
@@ -1546,24 +1587,24 @@ Peg = (function(){
           }
           if (result1 !== null) {
             result2 = [];
-            if (/^[a-z0-9 \t:!"#$%&'()=-~|{}+;_?\/><,]/i.test(input.charAt(pos))) {
+            if (/^[^\n]/i.test(input.charAt(pos))) {
               result3 = input.charAt(pos);
               pos++;
             } else {
               result3 = null;
               if (reportFailures === 0) {
-                matchFailed("[a-z0-9 \\t:!\"#$%&'()=-~|{}+;_?\\/><,]i");
+                matchFailed("[^\\n]i");
               }
             }
             while (result3 !== null) {
               result2.push(result3);
-              if (/^[a-z0-9 \t:!"#$%&'()=-~|{}+;_?\/><,]/i.test(input.charAt(pos))) {
+              if (/^[^\n]/i.test(input.charAt(pos))) {
                 result3 = input.charAt(pos);
                 pos++;
               } else {
                 result3 = null;
                 if (reportFailures === 0) {
-                  matchFailed("[a-z0-9 \\t:!\"#$%&'()=-~|{}+;_?\\/><,]i");
+                  matchFailed("[^\\n]i");
                 }
               }
             }

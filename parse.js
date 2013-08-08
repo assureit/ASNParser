@@ -40,3 +40,5 @@ test("*Goal\n*Strategy\n*Context\n**Goal\nHoge\n**Evidence\n**Goal\n**Context\n*
 test("*Goal\n*Evidence\n*Evidence");
 test("*context @def");
 test("*goal\ntodo::\n\tkey: value");
+test("*goal\n日本語\nhi");
+test("*evidence\nhi\n*context");

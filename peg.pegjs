@@ -58,9 +58,9 @@ symbol
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
 goalnodes
-	= &{ console.log("++"); _PEG.currentParsingLevel += 1; return true; }
+	= &{ _PEG.currentParsingLevel += 1; return true; }
 	  head:goalnode tail:(newline? goalnode)*
-	  &{ console.log("--"); _PEG.currentParsingLevel -= 1; return true; }
+	  &{ _PEG.currentParsingLevel -= 1; return true; }
 	{
 		var res = [head];
 		for (var i in tail) {
@@ -85,10 +85,9 @@ contextnode_
 	}
 
 evidencenode
-	= node:evidencenode_ context:contextnode
+	= node:evidencenode_ context:(newline? contextnode)
 	{
-		console.log(context);
-		node.Children = node.Children.concat([context]);
+		node.Children = node.Children.concat([context[1]]);
 		return node;
 	}
 	/ node:evidencenode_
@@ -114,15 +113,15 @@ evidencenodes
 	}
 
 strategynode
-	= node:strategynode_ context:contextnode goalnodes:goalnodes
+	= node:strategynode_ context:(newline? contextnode) goalnodes:goalnodes
 	{
-		node.Children = node.Children.concat([context]);
+		node.Children = node.Children.concat([context[1]]);
 		node.Children = node.Children.concat(goalnodes);
 		return node;
 	}
-	/ node:strategynode_ context:contextnode
+	/ node:strategynode_ context:(newline? contextnode)
 	{
-		node.Children = node.Children.concat([context]);
+		node.Children = node.Children.concat([context[1]]);
 		return node;
 	}
 	/ node:strategynode_ goalnodes:goalnodes
@@ -224,7 +223,7 @@ singleline
 		var singleline = subs.substr(0, toIndex);
 		return singleline.indexOf("::") == -1;
 	}
-	![ \t] line:[a-z0-9 \t:!"#$%&'()=-~|{}+;_?/><,]i*
+	![ \t\*] line:[^\n]i*
 	{ return line.join(""); }
 
 notes
