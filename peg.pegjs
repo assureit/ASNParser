@@ -280,7 +280,7 @@ key
 	{ return key; }
 
 value
-	= value:symbol /* FIXME */
+	= value:singleline /* FIXME */
 
 goal
 	= text:("goal" / "Goal")

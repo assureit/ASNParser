@@ -2053,7 +2053,7 @@ Peg = (function(){
       function parse_value() {
         var result0;
         
-        result0 = parse_symbol();
+        result0 = parse_singleline();
         return result0;
       }
       
