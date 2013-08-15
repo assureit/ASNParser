@@ -866,7 +866,7 @@ Peg = (function(){
       }
       
       function parse_strategynode() {
-        var result0, result1, result2;
+        var result0, result1, result2, result3;
         var pos0, pos1, pos2;
         
         pos0 = pos;
@@ -889,7 +889,21 @@ Peg = (function(){
             pos = pos2;
           }
           if (result1 !== null) {
-            result2 = parse_goalnodes();
+            pos2 = pos;
+            result2 = parse_newline();
+            result2 = result2 !== null ? result2 : "";
+            if (result2 !== null) {
+              result3 = parse_goalnodes();
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
             if (result2 !== null) {
               result0 = [result0, result1, result2];
             } else {
@@ -907,7 +921,7 @@ Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, node, context, goalnodes) {
         		node.Children = node.Children.concat([context[1]]);
-        		node.Children = node.Children.concat(goalnodes);
+        		node.Children = node.Children.concat(goalnodes[1]);
         		return node;
         	})(pos0, result0[0], result0[1], result0[2]);
         }

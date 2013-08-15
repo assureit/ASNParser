@@ -113,10 +113,10 @@ evidencenodes
 	}
 
 strategynode
-	= node:strategynode_ context:(newline? contextnode) goalnodes:goalnodes
+	= node:strategynode_ context:(newline? contextnode) goalnodes:(newline? goalnodes)
 	{
 		node.Children = node.Children.concat([context[1]]);
-		node.Children = node.Children.concat(goalnodes);
+		node.Children = node.Children.concat(goalnodes[1]);
 		return node;
 	}
 	/ node:strategynode_ context:(newline? contextnode)
