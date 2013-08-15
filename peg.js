@@ -1968,9 +1968,10 @@ Peg = (function(){
           result0 = (function(offset, head, tail) { 
         		var res = {};
         		res[head[0]] = head[1];
-        		for (var i in tail) {
-        			//res.push(tail[i][2]);
-        			res[tail[i][0]] = tail[i][1];
+        		if (tail != "") {
+        			for (var i in tail) {
+        				res[tail[i][2][0]] = tail[i][2][1];
+        			}
         		}
         		return res;
         	})(pos0, result0[2], result0[3]);

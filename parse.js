@@ -43,3 +43,5 @@ test("*goal\ntodo::\n\tkey: value");
 test("*goal\n日本語\nhi");
 test("*evidence\nhi\n*context");
 test("*evidence\nMonitor::\n\tScript: \"return 1;\"");
+test("*Strategy");
+test("*Evidence\nMonitor::\n\thi: bye\n\tbye: bye");
