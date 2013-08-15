@@ -855,7 +855,21 @@ Peg = (function(){
             pos1 = pos;
             result0 = parse_strategynode_();
             if (result0 !== null) {
-              result1 = parse_goalnodes();
+              pos2 = pos;
+              result1 = parse_newline();
+              result1 = result1 !== null ? result1 : "";
+              if (result1 !== null) {
+                result2 = parse_goalnodes();
+                if (result2 !== null) {
+                  result1 = [result1, result2];
+                } else {
+                  result1 = null;
+                  pos = pos2;
+                }
+              } else {
+                result1 = null;
+                pos = pos2;
+              }
               if (result1 !== null) {
                 result0 = [result0, result1];
               } else {
@@ -868,7 +882,7 @@ Peg = (function(){
             }
             if (result0 !== null) {
               result0 = (function(offset, node, goalnodes) {
-            		node.Children = node.Children.concat(goalnodes);
+            		node.Children = node.Children.concat(goalnodes[1]);
             		return node;
             	})(pos0, result0[0], result0[1]);
             }
@@ -1565,7 +1579,7 @@ Peg = (function(){
         		var subs = input.substr(offset);
         		var toIndex = (subs.indexOf("\n") == -1) ? subs.length : subs.indexOf("\n");
         		var singleline = subs.substr(0, toIndex);
-        		return singleline.indexOf("::") == -1;
+        		return (singleline.indexOf("::") == -1 && singleline.indexOf("*") != 0);
         	})(pos) ? "" : null;
         if (result0 !== null) {
           pos2 = pos;

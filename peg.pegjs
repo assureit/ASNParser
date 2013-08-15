@@ -124,9 +124,9 @@ strategynode
 		node.Children = node.Children.concat([context[1]]);
 		return node;
 	}
-	/ node:strategynode_ goalnodes:goalnodes
+	/ node:strategynode_ goalnodes:(newline? goalnodes)
 	{
-		node.Children = node.Children.concat(goalnodes);
+		node.Children = node.Children.concat(goalnodes[1]);
 		return node;
 	}
 	/ node:strategynode_
@@ -221,7 +221,7 @@ singleline
 		var subs = input.substr(offset);
 		var toIndex = (subs.indexOf("\n") == -1) ? subs.length : subs.indexOf("\n");
 		var singleline = subs.substr(0, toIndex);
-		return singleline.indexOf("::") == -1;
+		return (singleline.indexOf("::") == -1 && singleline.indexOf("*") != 0);
 	}
 	![ \t\*] line:[^\n]i*
 	{ return line.join(""); }
