@@ -47,3 +47,4 @@ test("*Strategy");
 test("*Evidence\nMonitor::\n\thi: bye\n\tbye: bye");
 test("*Evidence\nScript::\n\tint f() {\n\t    return 1;\n\t}");
 test("*Goal\nStakeholders are identified in this project\n*Context\nundefined::\n\tProjectName: Development of Assure S\n\tStakeholders: LDAPName\n\tVisible: true\n    \n*Strategy\nArguing over types of stakeholders\n**Goal\nFounders are identified\n**Evidence\nkimio\n**Goal\nDevelopers are identified\n**Evidence\nuchida\nmatsumura\n**Goal\nOperators are identified\n**Evidence\nishii");
+test("*goal\n*context\n  \n*strategy");

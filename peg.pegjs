@@ -51,7 +51,7 @@ _
 	= [ \t\r]
 
 newline
-	= [\n]
+	= [\n] ([ \t]* [\n])*
 
 symbol
 	= symbol:([0-9a-z]i+ [0-9a-z]i*)

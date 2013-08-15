@@ -301,8 +301,10 @@ Peg = (function(){
       }
       
       function parse_newline() {
-        var result0;
+        var result0, result1, result2, result3;
+        var pos0, pos1;
         
+        pos0 = pos;
         if (/^[\n]/.test(input.charAt(pos))) {
           result0 = input.charAt(pos);
           pos++;
@@ -311,6 +313,107 @@ Peg = (function(){
           if (reportFailures === 0) {
             matchFailed("[\\n]");
           }
+        }
+        if (result0 !== null) {
+          result1 = [];
+          pos1 = pos;
+          result2 = [];
+          if (/^[ \t]/.test(input.charAt(pos))) {
+            result3 = input.charAt(pos);
+            pos++;
+          } else {
+            result3 = null;
+            if (reportFailures === 0) {
+              matchFailed("[ \\t]");
+            }
+          }
+          while (result3 !== null) {
+            result2.push(result3);
+            if (/^[ \t]/.test(input.charAt(pos))) {
+              result3 = input.charAt(pos);
+              pos++;
+            } else {
+              result3 = null;
+              if (reportFailures === 0) {
+                matchFailed("[ \\t]");
+              }
+            }
+          }
+          if (result2 !== null) {
+            if (/^[\n]/.test(input.charAt(pos))) {
+              result3 = input.charAt(pos);
+              pos++;
+            } else {
+              result3 = null;
+              if (reportFailures === 0) {
+                matchFailed("[\\n]");
+              }
+            }
+            if (result3 !== null) {
+              result2 = [result2, result3];
+            } else {
+              result2 = null;
+              pos = pos1;
+            }
+          } else {
+            result2 = null;
+            pos = pos1;
+          }
+          while (result2 !== null) {
+            result1.push(result2);
+            pos1 = pos;
+            result2 = [];
+            if (/^[ \t]/.test(input.charAt(pos))) {
+              result3 = input.charAt(pos);
+              pos++;
+            } else {
+              result3 = null;
+              if (reportFailures === 0) {
+                matchFailed("[ \\t]");
+              }
+            }
+            while (result3 !== null) {
+              result2.push(result3);
+              if (/^[ \t]/.test(input.charAt(pos))) {
+                result3 = input.charAt(pos);
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("[ \\t]");
+                }
+              }
+            }
+            if (result2 !== null) {
+              if (/^[\n]/.test(input.charAt(pos))) {
+                result3 = input.charAt(pos);
+                pos++;
+              } else {
+                result3 = null;
+                if (reportFailures === 0) {
+                  matchFailed("[\\n]");
+                }
+              }
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos1;
+              }
+            } else {
+              result2 = null;
+              pos = pos1;
+            }
+          }
+          if (result1 !== null) {
+            result0 = [result0, result1];
+          } else {
+            result0 = null;
+            pos = pos0;
+          }
+        } else {
+          result0 = null;
+          pos = pos0;
         }
         return result0;
       }
