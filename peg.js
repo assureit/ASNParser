@@ -61,6 +61,7 @@ Peg = (function(){
         "notes": parse_notes,
         "note": parse_note,
         "notesubject": parse_notesubject,
+        "notedescription": parse_notedescription,
         "notebody": parse_notebody,
         "tabindent": parse_tabindent,
         "notekeyvalues": parse_notekeyvalues,
@@ -1760,34 +1761,105 @@ Peg = (function(){
         return result0;
       }
       
-      function parse_notebody() {
-        var result0, result1, result2, result3;
+      function parse_notedescription() {
+        var result0, result1, result2, result3, result4, result5, result6;
         var pos0, pos1, pos2;
+        
+        pos0 = pos;
+        pos1 = pos;
+        result0 = parse_newline();
+        if (result0 !== null) {
+          result1 = parse_tabindent();
+          if (result1 !== null) {
+            result2 = parse_singleline();
+            if (result2 !== null) {
+              result3 = [];
+              pos2 = pos;
+              result4 = parse_newline();
+              if (result4 !== null) {
+                result5 = parse_tabindent();
+                if (result5 !== null) {
+                  result6 = parse_singleline();
+                  if (result6 !== null) {
+                    result4 = [result4, result5, result6];
+                  } else {
+                    result4 = null;
+                    pos = pos2;
+                  }
+                } else {
+                  result4 = null;
+                  pos = pos2;
+                }
+              } else {
+                result4 = null;
+                pos = pos2;
+              }
+              while (result4 !== null) {
+                result3.push(result4);
+                pos2 = pos;
+                result4 = parse_newline();
+                if (result4 !== null) {
+                  result5 = parse_tabindent();
+                  if (result5 !== null) {
+                    result6 = parse_singleline();
+                    if (result6 !== null) {
+                      result4 = [result4, result5, result6];
+                    } else {
+                      result4 = null;
+                      pos = pos2;
+                    }
+                  } else {
+                    result4 = null;
+                    pos = pos2;
+                  }
+                } else {
+                  result4 = null;
+                  pos = pos2;
+                }
+              }
+              if (result3 !== null) {
+                result0 = [result0, result1, result2, result3];
+              } else {
+                result0 = null;
+                pos = pos1;
+              }
+            } else {
+              result0 = null;
+              pos = pos1;
+            }
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, tab, head, tail) { 
+        		console.log("tab: \"" + tab + "\"");
+        		var res = [head];
+        		for (var i in tail) {
+        			res.push(tail[i][1].join("").substr(tab.length) + tail[i][2]);
+        		}
+        		return res.join("\n");
+        	})(pos0, result0[1], result0[2], result0[3]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_notebody() {
+        var result0, result1;
+        var pos0, pos1;
         
         pos0 = pos;
         pos1 = pos;
         result0 = parse_notekeyvalues();
         if (result0 !== null) {
-          pos2 = pos;
-          result1 = parse_newline();
-          if (result1 !== null) {
-            result2 = parse_tabindent();
-            if (result2 !== null) {
-              result3 = parse_description();
-              if (result3 !== null) {
-                result1 = [result1, result2, result3];
-              } else {
-                result1 = null;
-                pos = pos2;
-              }
-            } else {
-              result1 = null;
-              pos = pos2;
-            }
-          } else {
-            result1 = null;
-            pos = pos2;
-          }
+          result1 = parse_notedescription();
           result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
             result0 = [result0, result1];
@@ -1802,8 +1874,8 @@ Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, kvs, desc) {
         		if (desc != "") {
-        			//kvs.push(["Description", desc[2]]);
-        			kvs["Description"] = desc[2];
+        			//kvs.push(["Description", desc]);
+        			kvs["Description"] = desc;
         		}
         		return kvs;
         	})(pos0, result0[0], result0[1]);
@@ -1813,28 +1885,9 @@ Peg = (function(){
         }
         if (result0 === null) {
           pos0 = pos;
-          pos1 = pos;
-          result0 = parse_newline();
+          result0 = parse_notedescription();
           if (result0 !== null) {
-            result1 = parse_tabindent();
-            if (result1 !== null) {
-              result2 = parse_description();
-              if (result2 !== null) {
-                result0 = [result0, result1, result2];
-              } else {
-                result0 = null;
-                pos = pos1;
-              }
-            } else {
-              result0 = null;
-              pos = pos1;
-            }
-          } else {
-            result0 = null;
-            pos = pos1;
-          }
-          if (result0 !== null) {
-            result0 = (function(offset, desc) { console.log("hi");return {"Description": desc[2]}; })(pos0, result0);
+            result0 = (function(offset, desc) { return {"Description": desc}; })(pos0, result0);
           }
           if (result0 === null) {
             pos = pos0;

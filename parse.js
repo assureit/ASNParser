@@ -45,3 +45,4 @@ test("*evidence\nhi\n*context");
 test("*evidence\nMonitor::\n\tScript: \"return 1;\"");
 test("*Strategy");
 test("*Evidence\nMonitor::\n\thi: bye\n\tbye: bye");
+test("*Evidence\nScript::\n\tint f() {\n\t    return 1;\n\t}");

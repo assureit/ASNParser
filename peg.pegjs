@@ -244,17 +244,30 @@ notesubject
 	= subject:symbol
 	{ return subject; }
 
+notedescription
+	= newline tab:tabindent head:singleline tail:(newline subtab:tabindent singleline)*
+	{ 
+		console.log("tab: \"" + tab + "\"");
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1].join("").substr(tab.length) + tail[i][2]);
+		}
+		return res.join("\n");
+	}
+	//= singleline:[a-z0-9 ]i* /* FIXME */
+	//{ return singleline.join(""); }
+
 notebody
-	= kvs:notekeyvalues desc:(newline tabindent description)?
+	= kvs:notekeyvalues desc:(notedescription)?
 	{
 		if (desc != "") {
-			//kvs.push(["Description", desc[2]]);
-			kvs["Description"] = desc[2];
+			//kvs.push(["Description", desc]);
+			kvs["Description"] = desc;
 		}
 		return kvs;
 	}
-	/ desc:(newline tabindent description)
-	{ console.log("hi");return {"Description": desc[2]}; }
+	/ desc:(notedescription)
+	{ return {"Description": desc}; }
 
 tabindent
 	= [\t ]+
