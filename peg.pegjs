@@ -223,7 +223,7 @@ singleline
 		var singleline = subs.substr(0, toIndex);
 		return (singleline.indexOf("::") == -1 && singleline.indexOf("*") != 0);
 	}
-	![ \t\*] line:[^\n]i*
+	line:[^\n]i*
 	{ return line.join(""); }
 
 notes

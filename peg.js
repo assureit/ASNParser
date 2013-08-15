@@ -1673,8 +1673,8 @@ Peg = (function(){
       }
       
       function parse_singleline() {
-        var result0, result1, result2, result3;
-        var pos0, pos1, pos2;
+        var result0, result1, result2;
+        var pos0, pos1;
         
         pos0 = pos;
         pos1 = pos;
@@ -1685,53 +1685,30 @@ Peg = (function(){
         		return (singleline.indexOf("::") == -1 && singleline.indexOf("*") != 0);
         	})(pos) ? "" : null;
         if (result0 !== null) {
-          pos2 = pos;
-          reportFailures++;
-          if (/^[ \t*]/.test(input.charAt(pos))) {
-            result1 = input.charAt(pos);
+          result1 = [];
+          if (/^[^\n]/i.test(input.charAt(pos))) {
+            result2 = input.charAt(pos);
             pos++;
           } else {
-            result1 = null;
+            result2 = null;
             if (reportFailures === 0) {
-              matchFailed("[ \\t*]");
+              matchFailed("[^\\n]i");
             }
           }
-          reportFailures--;
-          if (result1 === null) {
-            result1 = "";
-          } else {
-            result1 = null;
-            pos = pos2;
-          }
-          if (result1 !== null) {
-            result2 = [];
+          while (result2 !== null) {
+            result1.push(result2);
             if (/^[^\n]/i.test(input.charAt(pos))) {
-              result3 = input.charAt(pos);
+              result2 = input.charAt(pos);
               pos++;
             } else {
-              result3 = null;
+              result2 = null;
               if (reportFailures === 0) {
                 matchFailed("[^\\n]i");
               }
             }
-            while (result3 !== null) {
-              result2.push(result3);
-              if (/^[^\n]/i.test(input.charAt(pos))) {
-                result3 = input.charAt(pos);
-                pos++;
-              } else {
-                result3 = null;
-                if (reportFailures === 0) {
-                  matchFailed("[^\\n]i");
-                }
-              }
-            }
-            if (result2 !== null) {
-              result0 = [result0, result1, result2];
-            } else {
-              result0 = null;
-              pos = pos1;
-            }
+          }
+          if (result1 !== null) {
+            result0 = [result0, result1];
           } else {
             result0 = null;
             pos = pos1;
@@ -1741,7 +1718,7 @@ Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, line) { return line.join(""); })(pos0, result0[2]);
+          result0 = (function(offset, line) { return line.join(""); })(pos0, result0[1]);
         }
         if (result0 === null) {
           pos = pos0;
