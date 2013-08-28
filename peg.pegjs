@@ -71,6 +71,16 @@ goalnodes
 	/* In case parsing goalnodes above decrement parsing level */
 	/ &{ _PEG.currentParsingLevel -= 1; return true; }
 
+contextnodes
+	= head:contextnode tail:(newline? contextnode)*
+	{
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res;
+	}
+
 contextnode
 	= node:contextnode_
 	{ return node; }
@@ -85,7 +95,7 @@ contextnode_
 	}
 
 evidencenode
-	= node:evidencenode_ context:(newline? contextnode)
+	= node:evidencenode_ context:(newline? contextnodes)
 	{
 		node.Children = node.Children.concat([context[1]]);
 		return node;
@@ -113,15 +123,15 @@ evidencenodes
 	}
 
 strategynode
-	= node:strategynode_ context:(newline? contextnode) goalnodes:(newline? goalnodes)
+	= node:strategynode_ contextnodes:(newline? contextnodes) goalnodes:(newline? goalnodes)
 	{
-		node.Children = node.Children.concat([context[1]]);
+		node.Children = node.Children.concat(contextnodes[1]);
 		node.Children = node.Children.concat(goalnodes[1]);
 		return node;
 	}
-	/ node:strategynode_ context:(newline? contextnode)
+	/ node:strategynode_ contextnodes:(newline? contextnodes)
 	{
-		node.Children = node.Children.concat([context[1]]);
+		node.Children = node.Children.concat(contextnodes[1]);
 		return node;
 	}
 	/ node:strategynode_ goalnodes:(newline? goalnodes)
@@ -144,21 +154,21 @@ strategynode_
 	}
 
 goalnode
-	= node:goalnode_ context:(newline? contextnode) strategy:(newline? strategynode)
+	= node:goalnode_ contextnodes:(newline? contextnodes) strategy:(newline? strategynode)
 	{ 
-		node.Children.push(context[1]);
+		node.Children.concat(contextnodes[1]);
 		node.Children.push(strategy[1]);
 		return node; 
 	}
-	/ node:goalnode_ context:(newline? contextnode) evidence:(newline? evidencenodes)
+	/ node:goalnode_ contextnodes:(newline? contextnodes) evidence:(newline? evidencenodes)
 	{ 
-		node.Children.push(context[1]);
+		node.Children.concat(contextnodes[1]);
 		node.Children = node.Children.concat(evidence[1]);
 		return node; 
 	}
-	/ node:goalnode_ context:(newline? contextnode)
+	/ node:goalnode_ contextnodes:(newline? contextnodes)
 	{ 
-		node.Children.push(context[1]);
+		node.Children.push(contextnodes[1]);
 		return node; 
 	}
 	/ node:goalnode_ evidence:(newline? evidencenodes)

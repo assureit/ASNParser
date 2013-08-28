@@ -44,6 +44,7 @@ Peg = (function(){
         "newline": parse_newline,
         "symbol": parse_symbol,
         "goalnodes": parse_goalnodes,
+        "contextnodes": parse_contextnodes,
         "contextnode": parse_contextnode,
         "contextnode_": parse_contextnode_,
         "evidencenode": parse_evidencenode,
@@ -574,6 +575,73 @@ Peg = (function(){
         return result0;
       }
       
+      function parse_contextnodes() {
+        var result0, result1, result2, result3;
+        var pos0, pos1, pos2;
+        
+        pos0 = pos;
+        pos1 = pos;
+        result0 = parse_contextnode();
+        if (result0 !== null) {
+          result1 = [];
+          pos2 = pos;
+          result2 = parse_newline();
+          result2 = result2 !== null ? result2 : "";
+          if (result2 !== null) {
+            result3 = parse_contextnode();
+            if (result3 !== null) {
+              result2 = [result2, result3];
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+          } else {
+            result2 = null;
+            pos = pos2;
+          }
+          while (result2 !== null) {
+            result1.push(result2);
+            pos2 = pos;
+            result2 = parse_newline();
+            result2 = result2 !== null ? result2 : "";
+            if (result2 !== null) {
+              result3 = parse_contextnode();
+              if (result3 !== null) {
+                result2 = [result2, result3];
+              } else {
+                result2 = null;
+                pos = pos2;
+              }
+            } else {
+              result2 = null;
+              pos = pos2;
+            }
+          }
+          if (result1 !== null) {
+            result0 = [result0, result1];
+          } else {
+            result0 = null;
+            pos = pos1;
+          }
+        } else {
+          result0 = null;
+          pos = pos1;
+        }
+        if (result0 !== null) {
+          result0 = (function(offset, head, tail) {
+        		var res = [head];
+        		for (var i in tail) {
+        			res.push(tail[i][1]);
+        		}
+        		return res;
+        	})(pos0, result0[0], result0[1]);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
       function parse_contextnode() {
         var result0;
         var pos0;
@@ -678,7 +746,7 @@ Peg = (function(){
           result1 = parse_newline();
           result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
-            result2 = parse_contextnode();
+            result2 = parse_contextnodes();
             if (result2 !== null) {
               result1 = [result1, result2];
             } else {
@@ -877,7 +945,7 @@ Peg = (function(){
           result1 = parse_newline();
           result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
-            result2 = parse_contextnode();
+            result2 = parse_contextnodes();
             if (result2 !== null) {
               result1 = [result1, result2];
             } else {
@@ -919,8 +987,8 @@ Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, node, context, goalnodes) {
-        		node.Children = node.Children.concat([context[1]]);
+          result0 = (function(offset, node, contextnodes, goalnodes) {
+        		node.Children = node.Children.concat(contextnodes[1]);
         		node.Children = node.Children.concat(goalnodes[1]);
         		return node;
         	})(pos0, result0[0], result0[1], result0[2]);
@@ -937,7 +1005,7 @@ Peg = (function(){
             result1 = parse_newline();
             result1 = result1 !== null ? result1 : "";
             if (result1 !== null) {
-              result2 = parse_contextnode();
+              result2 = parse_contextnodes();
               if (result2 !== null) {
                 result1 = [result1, result2];
               } else {
@@ -959,8 +1027,8 @@ Peg = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, node, context) {
-          		node.Children = node.Children.concat([context[1]]);
+            result0 = (function(offset, node, contextnodes) {
+          		node.Children = node.Children.concat(contextnodes[1]);
           		return node;
           	})(pos0, result0[0], result0[1]);
           }
@@ -1112,7 +1180,7 @@ Peg = (function(){
           result1 = parse_newline();
           result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
-            result2 = parse_contextnode();
+            result2 = parse_contextnodes();
             if (result2 !== null) {
               result1 = [result1, result2];
             } else {
@@ -1154,8 +1222,8 @@ Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, node, context, strategy) { 
-        		node.Children.push(context[1]);
+          result0 = (function(offset, node, contextnodes, strategy) { 
+        		node.Children.concat(contextnodes[1]);
         		node.Children.push(strategy[1]);
         		return node; 
         	})(pos0, result0[0], result0[1], result0[2]);
@@ -1172,7 +1240,7 @@ Peg = (function(){
             result1 = parse_newline();
             result1 = result1 !== null ? result1 : "";
             if (result1 !== null) {
-              result2 = parse_contextnode();
+              result2 = parse_contextnodes();
               if (result2 !== null) {
                 result1 = [result1, result2];
               } else {
@@ -1214,8 +1282,8 @@ Peg = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, node, context, evidence) { 
-          		node.Children.push(context[1]);
+            result0 = (function(offset, node, contextnodes, evidence) { 
+          		node.Children.concat(contextnodes[1]);
           		node.Children = node.Children.concat(evidence[1]);
           		return node; 
           	})(pos0, result0[0], result0[1], result0[2]);
@@ -1232,7 +1300,7 @@ Peg = (function(){
               result1 = parse_newline();
               result1 = result1 !== null ? result1 : "";
               if (result1 !== null) {
-                result2 = parse_contextnode();
+                result2 = parse_contextnodes();
                 if (result2 !== null) {
                   result1 = [result1, result2];
                 } else {
@@ -1254,8 +1322,8 @@ Peg = (function(){
               pos = pos1;
             }
             if (result0 !== null) {
-              result0 = (function(offset, node, context) { 
-            		node.Children.push(context[1]);
+              result0 = (function(offset, node, contextnodes) { 
+            		node.Children.push(contextnodes[1]);
             		return node; 
             	})(pos0, result0[0], result0[1]);
             }
