@@ -1223,7 +1223,7 @@ Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, node, contextnodes, strategy) { 
-        		node.Children.concat(contextnodes[1]);
+        		node.Children = node.Children.concat(contextnodes[1]);
         		node.Children.push(strategy[1]);
         		return node; 
         	})(pos0, result0[0], result0[1], result0[2]);
@@ -1283,7 +1283,7 @@ Peg = (function(){
           }
           if (result0 !== null) {
             result0 = (function(offset, node, contextnodes, evidence) { 
-          		node.Children.concat(contextnodes[1]);
+          		node.Children = node.Children.concat(contextnodes[1]);
           		node.Children = node.Children.concat(evidence[1]);
           		return node; 
           	})(pos0, result0[0], result0[1], result0[2]);
@@ -1323,7 +1323,7 @@ Peg = (function(){
             }
             if (result0 !== null) {
               result0 = (function(offset, node, contextnodes) { 
-            		node.Children.push(contextnodes[1]);
+            		node.Children = node.Children.concat(contextnodes[1]);
             		return node; 
             	})(pos0, result0[0], result0[1]);
             }

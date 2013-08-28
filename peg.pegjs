@@ -156,19 +156,19 @@ strategynode_
 goalnode
 	= node:goalnode_ contextnodes:(newline? contextnodes) strategy:(newline? strategynode)
 	{ 
-		node.Children.concat(contextnodes[1]);
+		node.Children = node.Children.concat(contextnodes[1]);
 		node.Children.push(strategy[1]);
 		return node; 
 	}
 	/ node:goalnode_ contextnodes:(newline? contextnodes) evidence:(newline? evidencenodes)
 	{ 
-		node.Children.concat(contextnodes[1]);
+		node.Children = node.Children.concat(contextnodes[1]);
 		node.Children = node.Children.concat(evidence[1]);
 		return node; 
 	}
 	/ node:goalnode_ contextnodes:(newline? contextnodes)
 	{ 
-		node.Children.push(contextnodes[1]);
+		node.Children = node.Children.concat(contextnodes[1]);
 		return node; 
 	}
 	/ node:goalnode_ evidence:(newline? evidencenodes)
