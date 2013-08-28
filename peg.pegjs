@@ -95,9 +95,9 @@ contextnode_
 	}
 
 evidencenode
-	= node:evidencenode_ context:(newline? contextnodes)
+	= node:evidencenode_ contextnodes:(newline? contextnodes)
 	{
-		node.Children = node.Children.concat([context[1]]);
+		node.Children = node.Children.concat(contextnodes[1]);
 		return node;
 	}
 	/ node:evidencenode_

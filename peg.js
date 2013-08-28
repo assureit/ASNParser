@@ -768,8 +768,8 @@ Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, node, context) {
-        		node.Children = node.Children.concat([context[1]]);
+          result0 = (function(offset, node, contextnodes) {
+        		node.Children = node.Children.concat(contextnodes[1]);
         		return node;
         	})(pos0, result0[0], result0[1]);
         }

@@ -50,3 +50,4 @@ test("*Goal\nStakeholders are identified in this project\n*Context\nundefined::\
 test("*goal\n*context\n  \n*strategy");
 test("*strategy\n*context\nhi\n**goal");
 test("*goal\n*context\n*context");
+test("*evidence\n*context");
