@@ -23,11 +23,11 @@ initializer /* FIXME */
 				/* TODO */
 			},
 
-			CaseModel: function(Case, Parent, Type, Annotations, Statement, Notes) {
+			CaseModel: function(Label, Case, Parent, Type, Annotations, Statement, Notes) {
 				this.Case = Case;
 				this.Parent = Parent;
 				this.Type = Type;
-				this.Label = null; /* TODO how's Label used? */
+				this.Label = Label;
 				this.Statement = Statement;
 				this.Children = [];
 				this.Annotations = Annotations;
@@ -306,22 +306,44 @@ key
 value
 	= value:singleline /* FIXME */
 
-goal
-	= text:("goal" / "Goal")
-	{ return "Goal"; }
-
 nodedepth 
 	= asterisks:[*]+
 	{ return asterisks.length; }
 
+labelnum
+	= zero:[1-9]+ one:[0-9]*
+	{
+		return one == "" ? zero : zero + one.join("");
+	}
+
+goal
+	= goal:goal_ labelnum:labelnum?
+	{ return goal + labelnum; }
+
+goal_
+	= text:("goal" / "Goal" / "g" / "G")
+	{ return "G"; }
+
 context
-	= text:("context" / "Context")
-	{ return "Context"; }
+	= context:context_ labelnum:labelnum?
+	{ return context + labelnum; }
+
+context_
+	= text:("context" / "Context" / "c" / "C")
+	{ return "C"; }
 
 strategy
-	= text:("strategy" / "Strategy")
-	{ return "Strategy"; }
+	= strategy:strategy_ labelnum:labelnum?
+	{ return strategy + labelnum; }
+
+strategy_
+	= text:("strategy" / "Strategy" / "s" / "S")
+	{ return "S"; }
 
 evidence
-	= text:("evidence" / "Evidence")
-	{ return "Evidence"; }
+	= evidence:evidence_ labelnum:labelnum?
+	{ return evidence + labelnum; }
+
+evidence_
+	= text:("evidence" / "Evidence" / "e" / "E")
+	{ return "E"; }
