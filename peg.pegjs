@@ -9,14 +9,10 @@ initializer /* FIXME */
 	{
 		_PEG = {
 			CaseType: {
-				Goal: "Goal",
-				Context: "Context",
-				Strategy: "Strategy",
-				Evidence: "Evidence",
-				//Goal: 0,
-				//Context: 1,
-				//Strategy: 2,
-				//Evidence: 3,
+				G: "Goal",
+				C: "Context",
+				S: "Strategy",
+				E: "Evidence",
 			},
 
 			Case: function() {
@@ -91,7 +87,7 @@ contextnode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(context, null, null, _PEG.CaseType[context], anno, desc, notes);
+		return new _PEG.CaseModel(context, null, null, _PEG.CaseType[context[0]], anno, desc, notes);
 	}
 
 evidencenode
@@ -109,7 +105,7 @@ evidencenode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(evidence, null, null, _PEG.CaseType[evidence], anno, desc, notes);
+		return new _PEG.CaseModel(evidence, null, null, _PEG.CaseType[evidence[0]], anno, desc, notes);
 	}
 
 evidencenodes
@@ -150,7 +146,7 @@ strategynode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(strategy, null, null, _PEG.CaseType[strategy], anno, desc, notes);
+		return new _PEG.CaseModel(strategy, null, null, _PEG.CaseType[strategy[0]], anno, desc, notes);
 	}
 
 goalnode
@@ -192,7 +188,7 @@ goalnode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(goal, null, null, _PEG.CaseType[goal], anno, desc, notes);
+		return new _PEG.CaseModel(goal, null, null, _PEG.CaseType[goal[0]], anno, desc, notes);
 	}
 annotations
 	= head:annotation tail:(whitespace annotation)*
