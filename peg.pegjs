@@ -91,7 +91,7 @@ contextnode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[context], anno, desc, notes);
+		return new _PEG.CaseModel(context, null, null, _PEG.CaseType[context], anno, desc, notes);
 	}
 
 evidencenode
@@ -109,7 +109,7 @@ evidencenode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[evidence], anno, desc, notes);
+		return new _PEG.CaseModel(evidence, null, null, _PEG.CaseType[evidence], anno, desc, notes);
 	}
 
 evidencenodes
@@ -150,7 +150,7 @@ strategynode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[strategy], anno, desc, notes);
+		return new _PEG.CaseModel(strategy, null, null, _PEG.CaseType[strategy], anno, desc, notes);
 	}
 
 goalnode
@@ -192,7 +192,7 @@ goalnode_
 	{
 		var desc = (body == "") ? "" : body[1].desc;
 		var notes = (body == "") ? "" : body[1].notes;
-		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, desc, notes);
+		return new _PEG.CaseModel(goal, null, null, _PEG.CaseType[goal], anno, desc, notes);
 	}
 annotations
 	= head:annotation tail:(whitespace annotation)*

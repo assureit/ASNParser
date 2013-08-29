@@ -730,7 +730,7 @@ Peg = (function(){
           result0 = (function(offset, depth, context, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
         		var notes = (body == "") ? "" : body[1].notes;
-        		return new _PEG.CaseModel(null, null, _PEG.CaseType[context], anno, desc, notes);
+        		return new _PEG.CaseModel(context, null, null, _PEG.CaseType[context], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
         if (result0 === null) {
@@ -862,7 +862,7 @@ Peg = (function(){
           result0 = (function(offset, depth, evidence, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
         		var notes = (body == "") ? "" : body[1].notes;
-        		return new _PEG.CaseModel(null, null, _PEG.CaseType[evidence], anno, desc, notes);
+        		return new _PEG.CaseModel(evidence, null, null, _PEG.CaseType[evidence], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
         if (result0 === null) {
@@ -1164,7 +1164,7 @@ Peg = (function(){
           result0 = (function(offset, depth, strategy, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
         		var notes = (body == "") ? "" : body[1].notes;
-        		return new _PEG.CaseModel(null, null, _PEG.CaseType[strategy], anno, desc, notes);
+        		return new _PEG.CaseModel(strategy, null, null, _PEG.CaseType[strategy], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
         if (result0 === null) {
@@ -1500,7 +1500,7 @@ Peg = (function(){
           result0 = (function(offset, depth, goal, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
         		var notes = (body == "") ? "" : body[1].notes;
-        		return new _PEG.CaseModel(null, null, _PEG.CaseType[goal], anno, desc, notes);
+        		return new _PEG.CaseModel(goal, null, null, _PEG.CaseType[goal], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
         if (result0 === null) {
