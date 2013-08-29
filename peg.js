@@ -2395,7 +2395,7 @@ Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, zero, one) {
-        		return one == "" ? zero : zero + one.join("");
+        		return zero.join("") + one.join("");
         	})(pos0, result0[0], result0[1]);
         }
         if (result0 === null) {

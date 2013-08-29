@@ -52,3 +52,4 @@ test("*strategy\n*context\nhi\n**goal");
 test("*goal\n*context\n*context");
 test("*evidence\n*context");
 test("*G1");
+test("*G100");

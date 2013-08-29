@@ -309,7 +309,7 @@ nodedepth
 labelnum
 	= zero:[1-9]+ one:[0-9]*
 	{
-		return one == "" ? zero : zero + one.join("");
+		return zero.join("") + one.join("");
 	}
 
 goal
