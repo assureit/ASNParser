@@ -50,7 +50,7 @@ newline
 	= [\n] ([ \t]* [\n])*
 
 symbol
-	= symbol:([0-9a-z]i+ [0-9a-z]i*)
+	= symbol:([0-9a-z]i+ [0-9a-z.]i*)
 	{ return symbol[0].join("") + symbol[1].join(""); }
 
 goalnodes
@@ -200,8 +200,35 @@ annotations
 		return res;
 	}
 
+annotationparam
+	/* nested parenthesis */
+	= &{
+		var subs = input.substr(offset);
+		return subs.indexOf("(") != -1 && subs.indexOf("(") < subs.indexOf(")")
+			&& (subs.indexOf("\n") == -1 || subs.indexOf("\n") > subs.indexOf(")"));
+	}
+	before:[^(]* "(" param:annotationparam ")" after:[^)]*
+	{ return before.join("") + "(" + param + ")" + after.join(""); }
+
+	/* surrounded by parenthesis but does not include it. */
+	/ &{
+		var subs = input.substr(offset);
+		console.log("subs");
+		console.log(subs);
+		subs = subs.substr(0, subs.indexOf(")"));
+		return subs.indexOf("\n") == -1;
+	}
+	param:[^)]*
+	{ return param.join(""); }
+
 annotation
-	= "@" symbol:symbol
+	= "@" symbol:symbol param:( whitespace "(" annotationparam ")")
+	{ return {"Name": symbol, "Body": "(" + param[2] + ")"}; }
+
+	/ "@" symbol:symbol param:( whitespace symbol )
+	{ return {"Name": symbol, "Body": param[1]}; }
+
+	/ "@" symbol:symbol
 	{ return {"Name": symbol, "Body": ""}; }
 
 goalbody

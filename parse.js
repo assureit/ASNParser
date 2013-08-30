@@ -53,3 +53,7 @@ test("*goal\n*context\n*context");
 test("*evidence\n*context");
 test("*G1");
 test("*G100");
+test("*G @param (Monitor.X.callAdmin == 1)");
+test("*G @param (Monitor.X.callAdmin == 1) @param2");
+test("*G @param hi @param2");
+test("*G @param (Monitor.X.callAdmin == 1)\n*C");
