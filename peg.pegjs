@@ -334,10 +334,10 @@ nodedepth
 	{ return asterisks.length; }
 
 labelnum
-	= zero:[1-9]+ one:[0-9]*
-	{
-		return zero.join("") + one.join("");
-	}
+	= zero:[0]
+	{ return "0"; }
+	/ zero:[1-9]+ one:[0-9]*
+	{ return zero.join("") + one.join(""); }
 
 goal
 	= goal:goal_ labelnum:labelnum?

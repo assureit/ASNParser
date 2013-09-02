@@ -60,3 +60,4 @@ test("*G @param (Monitor.X.callAdmin == 1)\n*C");
 test("*G @after (E1.Monitor() == true) @test");
 test("*G @after (E1.Action == true) @test");
 test("*G @after (E1.Action == true) @test\n*S\nnewnode");
+test("*G0");
