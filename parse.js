@@ -55,3 +55,4 @@ test("*G @after (E1.Action == true) @test\n*S\nnewnode");
 test("*G0");
 test("* goal @task\ndesc\ntodo::");
 test("* goal @task @test\ntodo:: shida");
+test("*G1\nImportDScript:: LibName\nAdminName:: Admin");
