@@ -1,8 +1,8 @@
 start
-	= initializer goalnode whitespace?
-	/ initializer contextnode whitespace
-	/ initializer strategynode whitespace
-	/ initializer evidencenode whitespace
+	= initializer goalnode newline?
+	/ initializer contextnode newline?
+	/ initializer strategynode newline?
+	/ initializer evidencenode newline?
 
 initializer /* FIXME */
 	= ""

@@ -145,7 +145,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         if (result0 !== null) {
           result1 = parse_goalnode();
           if (result1 !== null) {
-            result2 = parse_whitespace();
+            result2 = parse_newline();
             result2 = result2 !== null ? result2 : "";
             if (result2 !== null) {
               result0 = [result0, result1, result2];
@@ -167,7 +167,8 @@ var module = module ? module : {}; module.exports = Peg = (function(){
           if (result0 !== null) {
             result1 = parse_contextnode();
             if (result1 !== null) {
-              result2 = parse_whitespace();
+              result2 = parse_newline();
+              result2 = result2 !== null ? result2 : "";
               if (result2 !== null) {
                 result0 = [result0, result1, result2];
               } else {
@@ -188,7 +189,8 @@ var module = module ? module : {}; module.exports = Peg = (function(){
             if (result0 !== null) {
               result1 = parse_strategynode();
               if (result1 !== null) {
-                result2 = parse_whitespace();
+                result2 = parse_newline();
+                result2 = result2 !== null ? result2 : "";
                 if (result2 !== null) {
                   result0 = [result0, result1, result2];
                 } else {
@@ -209,7 +211,8 @@ var module = module ? module : {}; module.exports = Peg = (function(){
               if (result0 !== null) {
                 result1 = parse_evidencenode();
                 if (result1 !== null) {
-                  result2 = parse_whitespace();
+                  result2 = parse_newline();
+                  result2 = result2 !== null ? result2 : "";
                   if (result2 !== null) {
                     result0 = [result0, result1, result2];
                   } else {
