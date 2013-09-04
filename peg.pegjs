@@ -269,9 +269,13 @@ notes
 		return res;
 	}
 
+notebody_singleline
+	= singleline: singleline
+	{ return singleline; }
+
 note
-	= subject:notesubject whitespace "::" body:notebody?
-	{ return new _PEG.CaseNote(subject, body == "" ? {} : body); }
+	= subject:notesubject whitespace "::" body:(whitespace notebody_singleline)?
+	{ return new _PEG.CaseNote(subject, body == "" ? {} : {Description: body[1]}); }
 
 notesubject
 	= subject:symbol

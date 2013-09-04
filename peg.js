@@ -61,6 +61,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         "description": parse_description,
         "singleline": parse_singleline,
         "notes": parse_notes,
+        "notebody_singleline": parse_notebody_singleline,
         "note": parse_note,
         "notesubject": parse_notesubject,
         "notedescription": parse_notedescription,
@@ -2167,9 +2168,24 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         return result0;
       }
       
+      function parse_notebody_singleline() {
+        var result0;
+        var pos0;
+        
+        pos0 = pos;
+        result0 = parse_singleline();
+        if (result0 !== null) {
+          result0 = (function(offset, singleline) { return singleline; })(pos0, result0);
+        }
+        if (result0 === null) {
+          pos = pos0;
+        }
+        return result0;
+      }
+      
       function parse_note() {
-        var result0, result1, result2, result3;
-        var pos0, pos1;
+        var result0, result1, result2, result3, result4;
+        var pos0, pos1, pos2;
         
         pos0 = pos;
         pos1 = pos;
@@ -2187,7 +2203,20 @@ var module = module ? module : {}; module.exports = Peg = (function(){
               }
             }
             if (result2 !== null) {
-              result3 = parse_notebody();
+              pos2 = pos;
+              result3 = parse_whitespace();
+              if (result3 !== null) {
+                result4 = parse_notebody_singleline();
+                if (result4 !== null) {
+                  result3 = [result3, result4];
+                } else {
+                  result3 = null;
+                  pos = pos2;
+                }
+              } else {
+                result3 = null;
+                pos = pos2;
+              }
               result3 = result3 !== null ? result3 : "";
               if (result3 !== null) {
                 result0 = [result0, result1, result2, result3];
@@ -2208,7 +2237,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, subject, body) { return new _PEG.CaseNote(subject, body == "" ? {} : body); })(pos0, result0[0], result0[3]);
+          result0 = (function(offset, subject, body) { return new _PEG.CaseNote(subject, body == "" ? {} : {Description: body[1]}); })(pos0, result0[0], result0[3]);
         }
         if (result0 === null) {
           pos = pos0;
