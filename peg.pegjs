@@ -280,7 +280,7 @@ notes
 	}
 
 notebody_singleline
-	= singleline: singleline
+	= singleline:singleline
 	{ return singleline; }
 
 note

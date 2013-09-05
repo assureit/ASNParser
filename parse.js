@@ -54,7 +54,7 @@ test("*G @after (E1.Action == true) @test");
 test("*G @after (E1.Action == true) @test\n*S\nnewnode");
 test("*G0");
 test("* goal @task\ndesc\ntodo::");
-test("* goal @task @test\ntodo:: shida");
 test("*G1\nImportDScript:: LibName\nAdminName:: Admin\n\n");
 test("*G1\n*S1\n*S2");
 test("*G1\n*C1\n*S1");
+test("* goal @task @test\ntodo:: shida");
