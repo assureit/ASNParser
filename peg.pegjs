@@ -118,6 +118,16 @@ evidencenodes
 		return res;
 	}
 
+strategynodes
+	= head:strategynode tail:(newline? strategynode)*
+	{
+		var res = [head];
+		for (var i in tail) {
+			res.push(tail[i][1]);
+		}
+		return res;
+	}
+
 strategynode
 	= node:strategynode_ contextnodes:(newline? contextnodes) goalnodes:(newline? goalnodes)
 	{
@@ -150,9 +160,10 @@ strategynode_
 	}
 
 goalnode
-	= node:goalnode_ contextnodes:(newline? contextnodes) strategy:(newline? strategynode)
+	= node:goalnode_ contextnodes:(newline? contextnodes) strategy:(newline? strategynodes)
 	{ 
 		node.Children = node.Children.concat(contextnodes[1]);
+		node.Children = node.Children.concat(strategy[1]);
 		node.Children.push(strategy[1]);
 		return node; 
 	}
@@ -172,9 +183,9 @@ goalnode
 		node.Children = node.Children.concat(evidence[1]);
 		return node; 
 	}
-	/ node:goalnode_ strategy:(newline? strategynode)
+	/ node:goalnode_ strategy:(newline? strategynodes)
 	{ 
-		node.Children.push(strategy[1]);
+		node.Children = node.Children.concat(strategy[1]);
 		return node; 
 	}
 	/ node:goalnode_

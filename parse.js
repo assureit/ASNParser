@@ -56,3 +56,4 @@ test("*G0");
 test("* goal @task\ndesc\ntodo::");
 test("* goal @task @test\ntodo:: shida");
 test("*G1\nImportDScript:: LibName\nAdminName:: Admin\n\n");
+test("*G1\n*S1\n*S2");
