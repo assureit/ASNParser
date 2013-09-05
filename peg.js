@@ -266,10 +266,11 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         				this.x = 0;
         				this.y = 0;
         			},
-        			CaseNote: function(Name, Body) {
-        				this.Name = Name;
-        				this.Body = Body;
-        			},
+        			/* obsolete */
+        			//CaseNote: function(Name, Body) {
+        			//	this.Name = Name;
+        			//	this.Body = Body;
+        			//},
         			currentParsingLevel: 1,
         		};
         		return "";
@@ -2226,9 +2227,10 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, head, tail) { 
-        		var res = [head];
+        		var res = head;
         		for (var i in tail) {
-        			res.push(tail[i][1]);
+        			var key = Object.keys(tail[i][1])[0];
+        			res[key] = tail[i][1][key];
         		}
         		return res;
         	})(pos0, result0[0], result0[1]);
@@ -2308,7 +2310,11 @@ var module = module ? module : {}; module.exports = Peg = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, subject, body) { return new _PEG.CaseNote(subject, body == "" ? {} : {Description: body[1]}); })(pos0, result0[0], result0[3]);
+          result0 = (function(offset, subject, body) {
+        		var res = {};
+        		res[subject] = body == "" ? "" : body[1];
+        		return res;
+        	})(pos0, result0[0], result0[3]);
         }
         if (result0 === null) {
           pos = pos0;
