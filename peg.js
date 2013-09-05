@@ -1299,7 +1299,6 @@ var module = module ? module : {}; module.exports = Peg = (function(){
           result0 = (function(offset, node, contextnodes, strategy) { 
         		node.Children = node.Children.concat(contextnodes[1]);
         		node.Children = node.Children.concat(strategy[1]);
-        		node.Children.push(strategy[1]);
         		return node; 
         	})(pos0, result0[0], result0[1], result0[2]);
         }

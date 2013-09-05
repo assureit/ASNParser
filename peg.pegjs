@@ -164,7 +164,6 @@ goalnode
 	{ 
 		node.Children = node.Children.concat(contextnodes[1]);
 		node.Children = node.Children.concat(strategy[1]);
-		node.Children.push(strategy[1]);
 		return node; 
 	}
 	/ node:goalnode_ contextnodes:(newline? contextnodes) evidence:(newline? evidencenodes)
