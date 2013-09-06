@@ -251,11 +251,12 @@ goalbody
 description
 	= head:singleline tail:([\n\r] singleline)*
 	{ 
-		var res = [head];
+		var list = [head];
 		for (var i in tail) {
-			res.push(tail[i][1]);
+			list.push(tail[i][1]);
 		}
-		return res.join("\n");
+		var res = list.join("\n");
+		return res.replace(/[\n\r]$/g, "");
 	}
 	//= singleline:[a-z0-9 ]i* /* FIXME */
 	//{ return singleline.join(""); }

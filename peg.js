@@ -2108,11 +2108,12 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         }
         if (result0 !== null) {
           result0 = (function(offset, head, tail) { 
-        		var res = [head];
+        		var list = [head];
         		for (var i in tail) {
-        			res.push(tail[i][1]);
+        			list.push(tail[i][1]);
         		}
-        		return res.join("\n");
+        		var res = list.join("\n");
+        		return res.replace(/[\n\r]$/g, "");
         	})(pos0, result0[0], result0[1]);
         }
         if (result0 === null) {

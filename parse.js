@@ -58,3 +58,4 @@ test("*G1\nImportDScript:: LibName\nAdminName:: Admin\n\n");
 test("*G1\n*S1\n*S2");
 test("*G1\n*C1\n*S1");
 test("* goal @task @test\ntodo:: shida");
+test("* goal\n\n\n\n* context");
