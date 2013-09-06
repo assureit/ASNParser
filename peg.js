@@ -732,7 +732,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, depth, context, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
-        		var notes = (body == "") ? "" : body[1].notes;
+        		var notes = (body == "") ? {} : body[1].notes;
         		return new _PEG.CaseModel(context, null, null, _PEG.CaseType[context[0]], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
@@ -864,7 +864,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, depth, evidence, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
-        		var notes = (body == "") ? "" : body[1].notes;
+        		var notes = (body == "") ? {} : body[1].notes;
         		return new _PEG.CaseModel(evidence, null, null, _PEG.CaseType[evidence[0]], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
@@ -1233,7 +1233,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, depth, strategy, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
-        		var notes = (body == "") ? "" : body[1].notes;
+        		var notes = (body == "") ? {} : body[1].notes;
         		return new _PEG.CaseModel(strategy, null, null, _PEG.CaseType[strategy[0]], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
@@ -1569,7 +1569,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
         if (result0 !== null) {
           result0 = (function(offset, depth, goal, anno, body) {
         		var desc = (body == "") ? "" : body[1].desc;
-        		var notes = (body == "") ? "" : body[1].notes;
+        		var notes = (body == "") ? {} : body[1].notes;
         		return new _PEG.CaseModel(goal, null, null, _PEG.CaseType[goal[0]], anno, desc, notes);
         	})(pos0, result0[0], result0[3], result0[5], result0[6]);
         }
@@ -2031,7 +2031,7 @@ var module = module ? module : {}; module.exports = Peg = (function(){
             pos = pos1;
           }
           if (result0 !== null) {
-            result0 = (function(offset, description, notes) { return {notes: notes == "" ? [] : notes[1], desc: description}; })(pos0, result0[1], result0[2]);
+            result0 = (function(offset, description, notes) { return {notes: notes == "" ? {} : notes[1], desc: description}; })(pos0, result0[1], result0[2]);
           }
           if (result0 === null) {
             pos = pos0;
